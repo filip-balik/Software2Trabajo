@@ -1,0 +1,162 @@
+---
+title: "Entrega grupal"
+author: "C. Tangana (DNI: 00000000-X), Rosalía (DNI: 00000000-X), ..."
+format:
+  html:
+    theme: [style.scss]
+    toc: true
+    toc-location: right
+    toc-title: Índice
+editor: visual
+---
+
+## Instrucciones (leer antes de empezar)
+
+- Modificad dentro del documento `.qmd` vuestros datos personales (nombres y DNI) ubicados en la cabecera del archivo.
+
+- Aseguraos, **ANTES de seguir editando** el documento, que el archivo `.qmd` se renderiza correctamente y se genera el `.html` correspondiente en tu carpeta local de tu ordenador.
+
+- Los chunks (cajas de código) creados están o vacíos o incompletos. Una vez que editeis lo que consideres, debeis ir cambiando cada chunck a `#| eval: true` (o quitarlo directamente) para que se ejecuten.
+
+- Recordad que puedes ejecutar chunk a chunk con el botón *play* o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+### Paquetes necesarios
+
+> Introduce en el chunk inferior los paquetes que vayas a necesitar
+
+```{r paquetes}
+rm(list = ls()) # Borramos variables de environment
+library(tidyverse)
+```
+
+## Práctica grupal
+
+### Datos
+
+La práctica versará entorno a los **archivos de datos electorales** que ya hemos trabajado, recopilando datos de citas electorales al Congreso de los Diputados de España desde 2008 hasta la actualidad
+
+```{r}
+# NO TOQUES NADA
+datos_elecciones <- read_csv(file = "./datos/datos_elecciones_brutos.csv")
+cod_mun <- read_csv(file = "./datos/cod_mun.csv")
+encuestas <- read_csv(file = "./datos/historical_surveys.csv")
+siglas <- read_csv(file = "./datos/siglas.csv")
+```
+
+Los datos serán los siguientes:
+
+* `datos_elecciones`: archivo con los datos electorales al Congreso desde 2018 hasta las últimas de 2019.
+
+  * `tipo_eleccion`: tipo de elección (02 si es elección al congreso)
+  * `anno`, `mes`: año y mes de las elecciones
+  * `vuelta`: vuelta electoral (1 si es primera vuelta)
+  * `codigo_ccaa, codigo_provincia, codigo_municipio, codigo_distrito_electoral`: código de la ccaa, provincia, municipio y distrito electoral.
+  * `numero_mesas`: número de mesas electorales
+  * `censo`: censo electoral
+  * `participacion_1, participacion_2`: participación en el primer avance (14:00) y segundo avance (18:00) antes del cierre de urnas (20:00)
+  * `votos_blancos`: votos en blanco
+  * `votos_candidaturas`: votos a papeletas de partidos
+  * `votos_nulos`: votos nulos
+  * votos recibidos por cada uno de los partidos
+  
+* `cod_mun`: archivo con los códigos y nombres de cada municipio
+
+* `siglas`: siglas y nombres asociados a cada partido
+
+* `encuestas`: tabla de encuestas electorales desde 1982.  Algunas de las variables son las siguientes:
+  
+  * `type_survey`: tipo de encuesta (nacional, autonómica, etc)
+  * `date_elec`: fecha de las futuras elecciones
+  * `id_pollster`, `pollster`, `media`: identificador y nombre de la casa encuestadora, así como el medio que lo haya encargado
+  * `field_date_from`, `field_date_to`: fecha de inicio y final del trabajo de campo
+  * `exit_poll`: si se trata de una encuesta a pie de urna o no
+  * `size`: tamaño muestral
+  * `turnout`: estimación de la participación
+  * estimación de intención de voto para los principales partidos
+  
+
+### Objetivos e ítems obligatorios
+
+El objetivo de la entrega es realizar un análisis de los datos electorales, llevando a cabo la depuración, resúmenes y gráficos que consideres, tanto de sus resultaados como del acierto de las encuestas electorales.
+
+En concreto **se deberá trabajar solo en la ventana temporal que comprenden las elecciones desde 2008 hasta las últimas elecciones de 2019**.
+
+#### Indicaciones generales
+
+Amén de lo que te parezca oportuno ejecutar, serán obligatorios los siguientes ítems:
+
+- Cada grupo deberá presentar **al menos 48 horas antes un análisis de los datos** en formato `.qmd` y `.html` en modo **diapositivas**, que **serán las que expongan el día de la presentación**.
+
+- Durante la presentación se **explicará el análisis realizado** de manera que **cada miembro del equipo habla un tiempo similar** y **cada miembro podrá ser preguntado por cualquiera de los pasos**. La nota no tendrá porque ser la misma para todos/as los/as integrantes.
+
+- Se valorará no solo el contenido sino el continente (estética).
+
+- Se valorará positivamente que las diapositivas estén alojadas en Github.
+
+- El objetivo es demostrar que se adquirido el máximo de conocimientos del curso: cuantas más contenido del temario se incluya, mejor.
+
+#### Ítems obligatorios:
+
+- Se deberá de **convertir los datos a tidydata** cuando proceda.
+
+- Se deberá **incluir al menos un cruce (join)** entre tablas.
+
+- Reminder: información = varianza, así que se deberán **retirar columnas que no nos van a aportar nada**.
+
+- Se deberá usar el **paquete glue y lubridate** en algún momento, así como el paquete **forcats**, **ggplot2** y **plotly**
+
+- Se deberá usar al menos una vez lo siguiente:
+  - mutate
+  - summarise
+  - group_by (o equivalente)
+  - case_when
+  
+- Tenemos muchísimos partidos que se presentan a las elecciones. Solo nos intereserán los siguientes partidos:
+  - PARTIDO SOCIALISTA OBRERO ESPAÑOL (cuidado: tiene/tuvo federaciones - sucursales - con algún otro nombre)
+  - PARTIDO POPULAR
+  - CIUDADANOS (cuidado: tiene/tuvo federaciones - sucursales - con algún otro nombre)
+  - PARTIDO NACIONALISTA VASCO
+  - BLOQUE NACIONALISTA GALEGO
+  - COMPROMÍS
+  - CONVERGÈNCIA I UNIÓ
+  - UNIDAS PODEMOS - IU (cuidado que aquí han tenido nombres variados - IU, los verdes, podem, ezker batua, ...- y no siempre han ido juntos, pero aquí los analizaremos juntos
+  - ESQUERRA REPUBLICANA DE CATALUNYA
+  - EH - BILDU (son ahora una coalición de partidos formados por Sortu, Eusko Alkartasuna, Aralar, Alternatiba)
+  - MÁS PAÍS
+  - VOX7*
+
+- Todo lo que no sea alguno de los anteriores partidos deberá ser imputado como "OTROS". Recuerda agregar los datos tras la recodificación anterior.
+
+- Para las visualizaciones se usarán las siglas de los partidos. El trabajo deberá contener al menos 5 gráficas, de las cuales al menos 3 deben ser tipos de gráficos distintos (ver  <https://r-graph-gallery.com/>), todas ellas con un tema personalizado
+
+- Deberás usar los 4 archivos de datos en algún momento
+
+- Deberás definir al menos una función propia (que no sea trivial)
+
+- Deberás descartar obligatoriamente las encuestas que:
+  - hagan referencia a elecciones anteriores a 2018
+  - que sean a pie de urna
+  - que tenga un tamaño muestral inferior a 750 o que sea desconocido
+  - que tengan menos de 1 o menos días de trabajo de campo
+
+- Deberás responder obligatoriamente a las siguientes preguntas (más las que consideres analizar para distinguirte del resto de equipos, ya sea numérica y/o gráficamente, pudiendo responder con números y/o con gráficos, decidiendo la mejor visualización que consideres.)
+
+  - ¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?
+  - ¿Cuál el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones?
+  - ¿Qué partido fue el segundo cuando el primero fue el PSOE? ¿Y cuándo el primero fue el PP?
+  - ¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?
+  - ¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?
+  - ¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos?  ¿A quién le beneficia la baja participación?
+  - ¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+  - ¿Cómo calibrar el error de las encuestas? ¿Cómo visualizarlo? (recuerda que las encuestas son intención de voto a nivel nacional)
+  - ¿En qué elección se equivocaron más las encuestas?
+  - ¿Cómo se equivocaron las encuestas en partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU)
+  - ¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?
+
+
+#### Calificación
+
+**No se valorará más al que más cosas haga**. Más no siempre es mejor. Se valorará la **originalidad** (respecto al resto de trabajos, por ejemplo en lo analizado o en el tema o ...) de lo planteado, tanto en manejo de tablas como en visualización, el **cariño** puesto en la entrega (el cariño en la vida es importante) y la **pertinencia** de lo realizado. Una vez que tengáis los ítems obligatorios con tu base de datos más o menos completada, **piensa antes** de ponerte a picar código: ¿qué puede ser interesante? ¿Qué necesito para poder obtener un resumen tanto numérico tanto visual?
+
+Recordad que el fin real es demostrarme un dominio de las herramientas vistas a lo largo del curso. Y eso pasa no solo por la cantidad de ellas utilizadas sino por la calidad al ejecutarlas.
+
