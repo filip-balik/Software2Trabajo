@@ -1,6 +1,6 @@
 ---
 title: "Entrega grupal"
-author: "C. Tangana (DNI: 00000000-X), Rosalía (DNI: 00000000-X), ..."
+author: "Daniel García Rodriguez de Sepúlveda (DNI: 70829427-F), Rosalía (DNI: 00000000-X), ..."
 format:
   html:
     theme: [style.scss]
