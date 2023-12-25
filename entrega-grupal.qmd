@@ -27,6 +27,7 @@ editor: visual
 ```{r paquetes}
 rm(list = ls()) # Borramos variables de environment
 library(tidyverse)
+library(ggplot2)
 ```
 
 ## Práctica grupal
