@@ -10,6 +10,7 @@ format:
 editor: visual
 ---
 
+
 ## Instrucciones (leer antes de empezar)
 
 - Modificad dentro del documento `.qmd` vuestros datos personales (nombres y DNI) ubicados en la cabecera del archivo.
@@ -44,6 +45,14 @@ datos_elecciones_tidy <-
                 values_to = "votos",
                 values_drop_na = TRUE ) |> 
   filter(votos > 0)
+
+datos_tidy <-
+  datos_tidy |> 
+  mutate(fecha = ymd(glue("{anno}{mes}01")),
+         cod_mun = glue("{codigo_ccaa}-{codigo_provincia}-{codigo_municipio}"))
+
+datos_tidy_cod_mun <- |> datos_tidy |> 
+  left_join(cod_mun, by = "cod_mun")
 ```
 
 ```{r}
