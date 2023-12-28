@@ -54,7 +54,7 @@ datos_elecciones_tidy <-
 datos_tidy_cod_mun <- |> datos_tidy |> 
   left_join(cod_mun, by = "cod_mun")
 ```
-# Agrupar los partidos # ESTA MAL
+# Agrupar los partidos # creo que ahora deberia de estar bien(filip) hay que borrar datos de la tabla los cuales no son de estos partidos.
 datos_elecciones_tidy <-
   datos_elecciones_tidy |> 
   mutate(siglas = case_when(str_detect( partido, "SOCIALIST") ~ "PSOE",
@@ -62,7 +62,13 @@ datos_elecciones_tidy <-
                             str_detect(partido, "CIUDADANOS |CIUTADANS") ~ "CS",
                             str_detect(partido, "PODEM") ~ "UP",
                             str_detect(partido, "VOX") ~ "VOX",
-                            str_detect(partido,"BLOQUE NACIONALISTA GALEGO| ESQUERRA REPUBLICANA DE CATALUNYA |PARTIDO NACIONALISTA VASCO | EUSKAL HERRIA BILDU" ) ~ "NACIONALISTAS",
+                            str_detect(partido, "PARTIDO NACIONALISTA VASCO") ~ "PNV",
+                            str_detect(partido, "BLOQUE NACIONALISTA GALEGO") ~ "BNG",
+                            str_detect(partido, "COMPROMÍS") ~ "Compromís",
+                            str_detect(partido, "CONVERGÈNCIA I UNIÓ") ~ "CiU",
+                            str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
+                            str_detect(partido, "EH-BILDU") ~ "EH Bildu",
+                            str_detect(partido, "MÁS PAÍS") ~ "Más País",
                             TRUE ~ "OTROS" ))
 ```
 
