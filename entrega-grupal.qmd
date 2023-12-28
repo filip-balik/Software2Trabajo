@@ -1,6 +1,6 @@
 ---
 title: "Entrega grupal"
-author: "Daniel García Rodriguez de Sepúlveda (DNI: 70829427-F), Rosalía (DNI: 00000000-X), ..."
+author: "Daniel García Rodriguez de Sepúlveda (DNI: 70829427-F), Filip Balik (NIE: X9509235T), ..."
 format:
   html:
     theme: [style.scss]
