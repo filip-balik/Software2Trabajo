@@ -54,7 +54,7 @@ datos_elecciones_tidy <-
 datos_tidy_cod_mun <- |> datos_tidy |> 
   left_join(cod_mun, by = "cod_mun")
 ```
-# Agrupar los partidos # creo que ahora deberia de estar bien(filip) hay que borrar datos de la tabla los cuales no son de estos partidos.
+# Agrupar los partidos
 datos_elecciones_tidy <-
   datos_elecciones_tidy |> 
   mutate(siglas = case_when(str_detect( partido, "SOCIALIST") ~ "PSOE",
@@ -160,7 +160,7 @@ n_votado <- function(partidos, votos, n = 1) {
 # creamos una tabla nueva que nos guarda los ganadores y segundos de cada ellecion
 datos_ganadores <- 
   datos_elecciones_tidy |> 
-  filter(fecha == max(fecha)) |> # he puesto solo las ultimas elecciones pq si no tarda mucho
+  filter(fecha == max(fecha)) |> # ultimas elecciones
   mutate(ganador = n_votado(siglas, votos),
          segundo = n_votado(siglas, votos, n = 2),
          .by = c(fecha, cod_mun))
