@@ -173,23 +173,26 @@ datos_ganadores |>
   filter(ganador == "PP") |> 
   count(segundo, sort = TRUE)
 
-# se podria añadir unos graficos de barras
 # Gráfico para el PSOE
-ggplot(datos_ganadores_psoe, aes(x = segundo, y = n, fill = segundo)) +
+datos_ganadores_psoe_top2 <- datos_ganadores_psoe |>#para que solo aparezcan los primeros 2.
+  top_n(2, n)
+ggplot(datos_ganadores_psoe_top2, aes(x = segundo, y = n, fill = segundo)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Partido segundo cuando ganó el PSOE",
        x = "Partido segundo",
-       y = "Número de veces") +
+       y = "Número de votos") +
     scale_fill_manual(values = colores_partidos) +
   theme_minimal() +
   theme(legend.position = "bottom")
 
 # Gráfico para el PP
-ggplot(datos_ganadores_pp, aes(x = segundo, y = n, fill = segundo)) +
+datos_ganadores_pp_top2 <- datos_ganadores_pp |>
+  top_n(2, n)
+ggplot(datos_ganadores_pp_top2, aes(x = segundo, y = n, fill = segundo)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Partido segundo cuando ganó el PP",
        x = "Partido segundo",
-       y = "Número de veces") +
+       y = "Número de votos") +
   scale_fill_manual(values = colores_partidos) +
   theme_minimal() +
   theme(legend.position = "bottom")
