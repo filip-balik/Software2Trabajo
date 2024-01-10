@@ -70,6 +70,11 @@ datos_elecciones_tidy <-
                             str_detect(partido, "EH-BILDU") ~ "EH Bildu",
                             str_detect(partido, "MÁS PAÍS") ~ "Más País",
                             TRUE ~ "OTROS" ))
+
+#solo los datos que nos interesan de los partidos en el enunciado
+datos_elecciones_tidy <- datos_elecciones_tidy |>
+  filter(siglas %in% c("PSOE", "PP", "CS", "UP", "VOX", "PNV", "BNG", "Compromís", "CiU", "ERC", "EH Bildu", "Más País"))
+
 ```
 
 ```{r}
@@ -115,7 +120,7 @@ Pregunta 3
 ¿Qué partido fue el segundo cuando el primero fue el PSOE? ¿Y cuándo el primero fue el PP?
 
 ```{r}
-# Priemro creamos una funcion que calcula el partido que quedo en la posición n
+# Primero creamos una funcion que calcula el partido que quedo en la posición n
 n_votado <- function(partidos, votos, n = 1) {
   
   datos <- tibble(partidos, votos) 
