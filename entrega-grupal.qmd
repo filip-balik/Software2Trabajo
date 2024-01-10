@@ -106,12 +106,34 @@ Pregunta 2
 
 ```{r}
 datos_elecciones_tidy |> 
+  
   group_by(fecha, cod_mun) |> 
   filter(censo > 100000) |> 
   slice_max(votos, n = 1) |> 
   select(fecha, cod_mun, votos, siglas, censo)
-  
-  
+
+ganador_municipios <- datos_elecciones_tidy |>
+  group_by(fecha, cod_mun) |>
+  filter(censo > 100000) |>
+  slice_max(votos, n = 1) |>
+  select(fecha, cod_mun, votos, siglas, censo)
+
+colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , "CiU"="#f64901", "PNV"="#2a8243", "ERC"= "#fbbc00")
+
+ggplot(ganador_municipios, aes(x = siglas, y = votos, fill = siglas)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = colores_partidos) +
+  facet_wrap(~fecha, scales = "free") +
+  labs(title = "Partido ganador en muncipios con censo > 100,000",
+       x = "Partido",
+       y = "Numero de Votos") +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank()
+
+  )
+
 
 ```
 
