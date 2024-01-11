@@ -69,12 +69,16 @@ datos_elecciones_tidy <-
                             str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
                             str_detect(partido, "EH-BILDU") ~ "EH Bildu",
                             str_detect(partido, "MÁS PAÍS") ~ "Más País",
-                            TRUE ~ "OTROS" ))
+                             TRUE ~ "OTROS" )) #pero como solo se usaran estos partidos esto es una redundancia
+
 
 #solo los datos que nos interesan de los partidos en el enunciado
 datos_elecciones_tidy <- datos_elecciones_tidy |>
   filter(siglas %in% c("PSOE", "PP", "CS", "UP", "VOX", "PNV", "BNG", "Compromís", "CiU", "ERC", "EH Bildu", "Más País"))
 
+colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , 
+"CS"="#f64901","CiU"="orange", "PNV"="#2a8243", "ERC"= "#fbbc00", "BNG"="#76b3dd","Compromís"="#d85127", 
+"Más País"="#00e2c6")# creando paleta personalizada con colores oficiales de los logos de los partidos que usaremos.
 ```
 
 ```{r}
@@ -95,7 +99,19 @@ encuestas_tidy <-
 Pregunta 1
 
 ¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?
+votos_elecciones <- datos_elecciones_tidy |> 
+  group_by(siglas) |> 
+  summarise(votos = sum(votos)) |> 
+  mutate(siglas = fct_reorder(siglas, votos))
 
+ggplot(votos_elecciones, aes(x = siglas, y = votos, fill = siglas)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Votos por tipo de partido",
+       x = "Tipo de partido",
+       y = "Porcentaje") +
+  scale_fill_manual(values = colores_partidos) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```{r}
 
 ```
@@ -118,7 +134,6 @@ ganador_municipios <- datos_elecciones_tidy |>
   slice_max(votos, n = 1) |>
   select(fecha, cod_mun, votos, siglas, censo)
 
-colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , "CiU"="#f64901", "PNV"="#2a8243", "ERC"= "#fbbc00")
 
 ggplot(ganador_municipios, aes(x = siglas, y = votos, fill = siglas)) +
   geom_bar(stat = "identity", position = "dodge") +
