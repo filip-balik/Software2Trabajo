@@ -142,6 +142,36 @@ n_votado <- function(partidos, votos, n = 1) {
 
 ¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?
 
+
+```{r}
+#| echo: False
+votos_elecciones <- datos_elecciones_tidy |> 
+  mutate(Grupo = ifelse(siglas %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP - IU"),
+                        "Nacionales ", "Nacionalistas "))
+
+# argupar
+votos_elecciones <- votos_elecciones |> 
+  group_by(Grupo) |> 
+  summarise(votos = sum(votos))
+
+# Reordenar
+votos_elecciones <- votos_elecciones |> 
+  mutate(Grupo = fct_reorder(Grupo, votos))
+
+```
+
+```{r}
+# ggplot
+ggplot(votos_elecciones, aes(x = Grupo, y = votos, fill = Grupo)) +
+  geom_bar(stat = "identity", position = "stack") +
+  
+  labs(title = "Votos por tipo de partido",
+       x = "Tipo de partido",
+       y = "Votos") +
+  scale_y_continuous(limits = c(0, 1.0e+08), labels = scales::comma_format()) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
 ## Pregunta 2
 
 ¿Cuál es el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones.
