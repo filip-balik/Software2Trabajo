@@ -98,18 +98,26 @@ encuestas_tidy <-
 
 Pregunta 1
 
-¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?
 votos_elecciones <- datos_elecciones_tidy |> 
-  group_by(siglas) |> 
-  summarise(votos = sum(votos)) |> 
-  mutate(siglas = fct_reorder(siglas, votos))
+  mutate(Grupo = ifelse(siglas %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP - IU"), "Nacionales ", "Nacionalistas "))
 
-ggplot(votos_elecciones, aes(x = siglas, y = votos, fill = siglas)) +
+# argupar
+votos_elecciones <- votos_elecciones |> 
+  group_by(Grupo) |> 
+  summarise(votos = sum(votos))
+
+# Reordenar
+votos_elecciones <- votos_elecciones |> 
+  mutate(Grupo = fct_reorder(Grupo, votos))
+
+# ggplot
+ggplot(votos_elecciones, aes(x = Grupo, y = votos, fill = Grupo)) +
   geom_bar(stat = "identity", position = "stack") +
+  
   labs(title = "Votos por tipo de partido",
        x = "Tipo de partido",
-       y = "Porcentaje") +
-  scale_fill_manual(values = colores_partidos) +
+       y = "Votos") +
+  scale_y_continuous(limits = c(0, 1.0e+08), labels = scales::comma_format()) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```{r}
