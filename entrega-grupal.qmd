@@ -67,18 +67,18 @@ datos_elecciones_tidy <-
                             str_detect(partido, "COMPROMÍS") ~ "Compromís",
                             str_detect(partido, "CONVERGÈNCIA I UNIÓ") ~ "CiU",
                             str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
-                            str_detect(partido, "EH-BILDU | Sortu| Eusko Alkartasuna| Aralar|Alternatiba") ~ "EH Bildu",
-                            str_detect(partido, "MÁS PAÍS") ~ "Más País",
+                            str_detect(partido, "EUSKAL HERRIA BILDU") ~ "EH Bildu",
+                            str_detect(partido, "MP") ~ "MP",
                              TRUE ~ "OTROS" )) #pero como solo se usaran estos partidos esto es una redundancia
 
 
 #solo los datos que nos interesan de los partidos en el enunciado
 datos_elecciones_tidy <- datos_elecciones_tidy |>
-  filter(siglas %in% c("PSOE", "PP", "CS", "UP", "VOX", "PNV", "BNG", "Compromís", "CiU", "ERC", "EH Bildu", "Más País"))
+  filter(siglas %in% c("PSOE", "PP", "CS", "UP", "VOX", "PNV", "BNG", "Compromís", "CUP", "ERC", "EH Bildu", "MP"))
 
 colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , 
-"CS"="#f64901","CiU"="orange", "PNV"="#2a8243", "ERC"= "#fbbc00", "BNG"="#76b3dd","Compromís"="#d85127", 
-"Más País"="#00e2c6")# creando paleta personalizada con colores oficiales de los logos de los partidos que usaremos.
+"CS"="#f64901","CUP"="orange", "PNV"="#2a8243", "ERC"= "#fbbc00", "BNG"="#76b3dd","Compromís"="#d85127", 
+"MP"="#00e2c6")# creando paleta personalizada con colores oficiales de los logos de los partidos que usaremos.
 ```
 
 ```{r}
