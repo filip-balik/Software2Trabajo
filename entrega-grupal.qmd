@@ -227,11 +227,40 @@ Pregunta 4
 ¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?
 
 ```{r}
-datos_elecciones_tidy |> 
-  filter(censo > 2000) |> 
-  group_by(fecha, cod_mun) |> 
-  arrange(desc(votos)) |> 
-  
+result <- datos_elecciones_tidy  |> 
+  filter(censo > 2000)  |> 
+  group_by(fecha, cod_mun, codigo_provincia, codigo_ccaa)  |> 
+  arrange(desc(votos))  |> 
+  slice(1:2) |>  #los dos candidatos primeros de cada mun
+  mutate(diff_votes = votos[1] - votos[2]) |>   # diferencia en votos
+  group_by(fecha, codigo_provincia, codigo_ccaa) |> 
+  summarise(max_diff_votes = max(diff_votes)) |>  # max diferencia
+  arrange(desc(max_diff_votes))
+
+# Display por provincias
+ggplot(result, aes(x = reorder(fecha, max_diff_votes), y = max_diff_votes, fill = codigo_provincia)) +
+  geom_bar(stat = "identity", position = "dodge") +
+    scale_y_continuous(limits = c(0, 20000)) +
+  labs(title = "Diferencia entre el ganador y el segundo partido",
+       x = "Fecha",
+       y = "Diferencia de votos") +
+  scale_fill_discrete(name = "Comunidad autónoma") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# display por comunidad y ceuta y melilla (18,19)
+ggplot(result, aes(x = reorder(fecha, max_diff_votes), y = max_diff_votes, fill = codigo_ccaa)) +
+  geom_bar(stat = "identity", position = "dodge") +
+    scale_y_continuous(limits = c(0, 20000)) +
+
+  labs(title = "Diferencia entre el ganador y el segundo partido",
+       x = "Fecha",
+       y = "Diferencia de votos") +
+  scale_fill_discrete(name = "Comunidad autónoma") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
   
   
 ```
