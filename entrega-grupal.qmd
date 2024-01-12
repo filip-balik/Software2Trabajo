@@ -60,14 +60,14 @@ datos_elecciones_tidy <-
   mutate(siglas = case_when(str_detect( partido, "SOCIALIST") ~ "PSOE",
                             str_detect(partido,"PARTIDO POPULAR")~ "PP",
                             str_detect(partido, "CIUDADANOS |CIUTADANS") ~ "CS",
-                            str_detect(partido, "PODEM") ~ "UP",
+                            str_detect(partido, "PODEM | UNIDAS PODEMOS | UNIDOS PODEMOS | EN COMÚ PODEM | EZKER | UNIDA |IU") ~ "UP",
                             str_detect(partido, "VOX") ~ "VOX",
                             str_detect(partido, "PARTIDO NACIONALISTA VASCO") ~ "PNV",
                             str_detect(partido, "BLOQUE NACIONALISTA GALEGO") ~ "BNG",
                             str_detect(partido, "COMPROMÍS") ~ "Compromís",
                             str_detect(partido, "CONVERGÈNCIA I UNIÓ") ~ "CiU",
                             str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
-                            str_detect(partido, "EH-BILDU") ~ "EH Bildu",
+                            str_detect(partido, "EH-BILDU | Sortu| Eusko Alkartasuna| Aralar|Alternatiba") ~ "EH Bildu",
                             str_detect(partido, "MÁS PAÍS") ~ "Más País",
                              TRUE ~ "OTROS" )) #pero como solo se usaran estos partidos esto es una redundancia
 
