@@ -241,7 +241,12 @@ Pregunta 5
 ¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?
 
 ```{r}
-
+datos_elecciones_tidy |> 
+  mutate(por_nul = votos_nulos/votos_candidaturas *100) |> 
+  distinct(municipio, .keep_all = TRUE) |> 
+  arrange(desc(por_nul)) |> 
+  select(por_nul, municipio)
+  
 ```
 
 Pregunta 6
