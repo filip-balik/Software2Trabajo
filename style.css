@@ -1,0 +1,51 @@
+/*theme*/
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.secondary-color {
+  color: #0099ff;
+}
+
+
+h1 {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-family: "Consolas", monospace;
+}
