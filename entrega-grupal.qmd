@@ -358,6 +358,21 @@ Pregunta 9
 ¿En qué elección se equivocaron más las encuestas?
 
 ```{r}
+encuestas_generales <- encuestas_tidy |>
+  filter(type_survey == "national")
+errores <- encuestas_generales |>
+  group_by(date_elec) |>
+  summarise(error = mean(abs(votos - votos_candidaturas)))
+mayor_error <- errores |>
+  filter(error == max(error))
+print(mayor_error)
+
+
+ggplot(errores, aes(x = date_elec, y = error)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Error de las encuestas en las elecciones generales",
+       x = "Fecha de las elecciones",
+       y = "Error promedio")
 
 ```
 
@@ -366,7 +381,21 @@ Pregunta 10
 ¿Cómo se equivocaron las encuestas en partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU)
 
 ```{r}
+encuestas_generales <- encuestas_tidy |>
+  filter(type_survey == "national")
 
+encuestas_generales_partido <- encuestas_generales |>
+  filter(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP - IU"))
+
+errores_partido <- encuestas_generales_partido |>
+  group_by(partido) |>
+  summarise(error = mean(abs(votos - votos_candidaturas)))
+
+ggplot(errores_partido, aes(x = partido, y = error)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Error de las encuestas en los partidos de ámbito nacional",
+       x = "Partido",
+       y = "Error promedio")
 ```
 
 Pregunta 11
@@ -374,7 +403,22 @@ Pregunta 11
 ¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?
 
 ```{r}
+encuestas_generales <- encuestas_tidy |>
+  filter(type_survey == "national")
 
+errores_encuestadoras <- encuestas_generales |>
+  group_by(encuestadora) |>
+  summarise(error = mean(abs(votos - votos_candidaturas)))
+
+errores_encuestadoras <- errores_encuestadoras |>
+  arrange(error)
+
+
+ggplot(errores_encuestadoras, aes(x = encuestadora, y = error)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Error de las encuestas por casa encuestadora",
+       x = "Casa encuestadora",
+       y = "Error promedio")
 ```
 
 ### Datos
