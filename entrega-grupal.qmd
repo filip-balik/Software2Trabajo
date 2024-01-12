@@ -303,11 +303,26 @@ Pregunta 7
 ¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
 
 ```{r}
-# analizar la relacion entre censo y voto
-# crear un gráfico de barras apiladas en el que la x sea el censo agrupado por intervalos y la y el count de los ganadores
-datos_elecciones_tidy |> 
-  ggplot()+
-  geom_col(aes())
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+ z<- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+  
+ b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+a <- b |> 
+  inner_join(z, by = "censo_a")
+
+  ggplot(a)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
 ```
 
 pregunta 8
