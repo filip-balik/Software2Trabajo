@@ -740,7 +740,7 @@ c <- b |>
 
 encuestas_tidy <- encuestas_tidy |> 
   mutate(votos_e = votos) |> 
-  mutate(siglas = case_when(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP") ~partido,
+  mutate(siglas = case_when(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP","BNG","Compromís","ERC","CiU","Eh Bildu","PNV") ~partido,
                             TRUE ~ "OTROS")) |>  # lo cambiamos para que tenga las mismas siglas que la tabla elecciones
   mutate(fecha = date_elec) |> 
   mutate(votos_e = sum(votos_e), .by = c(fecha, media,siglas)) |> 
