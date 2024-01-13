@@ -902,7 +902,7 @@ elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.
 
 ```{r}
 elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.x, media)) |> 
-  arrange(media_error) |> 
+  arrange(desc(media_error)) |> 
   head()
 ```
 
