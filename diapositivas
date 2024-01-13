@@ -59,7 +59,6 @@ datos_elecciones_tidy <-  datos_elecciones_tidy |>
 
 ```{r}
 #| echo: true
-# Agrupar los partidos # ESTA MAL
 datos_elecciones_tidy <-
   datos_elecciones_tidy |> 
   mutate(siglas = case_when(str_detect( partido, "SOCIALIST") ~ "PSOE",
@@ -67,8 +66,18 @@ datos_elecciones_tidy <-
                             str_detect(partido, "CIUDADANOS |CIUTADANS") ~ "CS",
                             str_detect(partido, "PODEM") ~ "UP",
                             str_detect(partido, "VOX") ~ "VOX",
-                            str_detect(partido,"BLOQUE NACIONALISTA GALEGO| ESQUERRA REPUBLICANA DE CATALUNYA |PARTIDO NACIONALISTA VASCO | EUSKAL HERRIA BILDU" ) ~ "NACIONALISTAS",
-                            TRUE ~ "OTROS" ))
+                            str_detect(partido, "PARTIDO NACIONALISTA VASCO") ~ "PNV",
+                            str_detect(partido, "BLOQUE NACIONALISTA GALEGO") ~ "BNG",
+                            str_detect(partido, "COMPROMÍS") ~ "Compromís",
+                            str_detect(partido, "CONVERGÈNCIA I UNIÓ") ~ "CiU",
+                            str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
+                            str_detect(partido, "EH-BILDU") ~ "EH Bildu",
+                            str_detect(partido, "MÁS PAÍS") ~ "Más País",
+                             TRUE ~ "OTROS" ))
+# sumanos los votos de los partidos pertenecientes al mismo grupo
+datos_elecciones_tidy <- datos_elecciones_tidy |> 
+  mutate(votos = sum(votos), .by = c(fecha, cod_mun, siglas)) |> 
+  distinct(fecha, cod_mun, siglas, .keep_all = TRUE)
 ```
 
 ## Resultado
@@ -102,7 +111,7 @@ encuestas_tidy <-
   filter(field_date_to - field_date_from > 1 & year(date_elec)>= 2018 &
            exit_poll == FALSE &  size >= 750) |> 
   drop_na(size) |> 
-  select(-c(exit_poll))
+  select(-c(type_survey, exit_poll))
   
 
 ```
@@ -117,7 +126,7 @@ head(encuestas_tidy)
 Funciones que implemantaremos para facilitarnos el trabajo
 
 ## Funcion 1
-> calcular el partido que queno en la posición n
+> calcular el partido que quedo en la posición n
 
 ```{r}
 #| echo: true
@@ -151,14 +160,15 @@ votos_elecciones <- datos_elecciones_tidy |>
 
 # argupar
 votos_elecciones <- votos_elecciones |> 
-  group_by(Grupo) |> 
+  group_by(Grupo) |> # meterle fecha
   summarise(votos = sum(votos))
 
 # Reordenar
-votos_elecciones <- votos_elecciones |> 
+votos_elecciones <- votos_elecciones |> # intentar hacer el de sectores
   mutate(Grupo = fct_reorder(Grupo, votos))
 
 ```
+
 
 ```{r}
 # ggplot
@@ -172,6 +182,8 @@ ggplot(votos_elecciones, aes(x = Grupo, y = votos, fill = Grupo)) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
+
+
 ## Pregunta 2
 
 ¿Cuál es el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones.
@@ -217,13 +229,16 @@ datos_elecciones_tidy |>
 ```{r}
 #| eval: true
 #| echo: true
-# creamos una tabla nueva que nos guarda los ganadores y segundos de cada elecion
+
+
+# creamos una tabla nueva que nos guarda los ganadores y segundos de cada ellecion
 datos_ganadores <- 
   datos_elecciones_tidy |> 
-  filter(fecha == max(fecha)) |> # ultimas elecciones
+  filter(fecha == max(fecha)) |> # he puesto solo las ultimas elecciones pq si no tarda mucho
   mutate(ganador = n_votado(siglas, votos),
          segundo = n_votado(siglas, votos, n = 2),
-         .by = c(fecha, cod_mun))
+         .by = c(fecha, cod_mun)) |> 
+  distinct(fecha, cod_mun, ganador, segundo, .keep_all = TRUE)
 # calculamos que partidos fueron segundos cuando gano el PSOE
 datos_ganadores_psoe <- datos_ganadores |>
   filter(ganador == "PSOE") |> 
@@ -263,3 +278,1057 @@ ggplot(aes(x = segundo, y = n, fill = segundo)) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
+
+
+:::
+
+## Pregunta 4 
+¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?
+
+::: panel-tabset
+
+### Código
+```{r}
+#| echo: True
+#| eval: false
+
+diferencia <-
+  datos_elecciones_tidy |> 
+  filter(censo > 2000) |> 
+  filter(fecha == max(fecha)) |> 
+  group_by(municipio) |> 
+  summarize(diferencia = max(votos) - max(votos[votos != max(votos)])) |> 
+  arrange(desc(diferencia))
+
+diferencia |> 
+  inner_join(datos_ganadores, by = "municipio") |> 
+  select(municipio, diferencia, ganador)
+  
+```
+
+### Resultado
+
+```{r}
+#| echo: false
+#| eval: true
+
+diferencia <-
+  datos_elecciones_tidy |> 
+  filter(censo > 2000) |> 
+  filter(fecha == max(fecha)) |> 
+  group_by(municipio) |> 
+  summarize(diferencia = max(votos) - max(votos[votos != max(votos)])) |> 
+  arrange(desc(diferencia))
+
+diferencia |> 
+  inner_join(datos_ganadores, by = "municipio") |> 
+  select(municipio, diferencia, ganador)
+  
+```
+
+> observamos que el cuando hay un claro ganador, este suele ser el PSOE (a excepción del Pais Vasco)
+
+:::
+
+## Pregunta 5 
+¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?
+
+
+```{r}
+#| eval: false
+#| echo: true
+datos_elecciones_tidy |> 
+  mutate(por_nul = votos_nulos/votos_candidaturas *100) |> 
+  distinct(municipio, .keep_all = TRUE) |> 
+  arrange(desc(por_nul)) |> 
+  select(por_nul, municipio)
+```
+
+Requena de Campos (16,66%) Palencia
+
+Narrillos del Rebollar (15,62%) Ávila
+
+Encinasola (12,53%) Huelva
+
+Estepa de San Juan (12,5%) Soria
+
+Valdehijaderos (11,53%) Salamanca
+
+Valdevacas de Montejo (11,11%) Segovia
+
+Piérnigas (8,82%) Burgos
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+
+```{r}
+datos_participacion <-
+datos_ganadores |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+```
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+datos_participacion <-
+datos_ganadores|>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+```
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 5-9
+datos_participacion <-
+datos_elecciones_tidy |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+```
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 10-15
+datos_participacion <-
+datos_elecciones_tidy |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+
+```
+
+## Pregunta 6
+::: panel-tabset
+## Más part
+```{r}
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador) |> 
+  head()
+
+```
+
+## Menos part
+```{r}
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador) |> 
+  head()
+```
+
+:::
+> observamos que la baja participación beneficia a los partidos minoritarios y menos conocidos
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 4-6
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 7-9
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 10-12
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 13-17
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: True
+#| echo: false
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+> estos grafico representa el que porcentaje de municipios gano cada partido para cada uno de los grupos de censos 
+---
+title: "Entrega Grupal"
+subtitle: "Daniel García y Filip Balik"
+format: revealjs
+editor: visual
+---
+
+```{r paquetes}
+rm(list = ls()) # Borramos variables de environment
+library(tidyverse)
+library(ggplot2)
+library(glue)
+library(lubridate)
+```
+
+```{r}
+# NO TOQUES NADA
+datos_elecciones <- read_csv(file = "./datos/datos_elecciones_brutos.csv")
+cod_mun <- read_csv(file = "./datos/cod_mun.csv")
+encuestas <- read_csv(file = "./datos/historical_surveys.csv")
+siglas <- read_csv(file = "./datos/siglas.csv")
+
+```
+```{r}
+colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , "CiU"="#f64901", "PNV"="#2a8243", "ERC"= "#fbbc00")
+```
+
+# Introduccion
+
+# Paso a Tidydata {background-color="#07202E"}
+
+## tabla elecciones
+
+::: panel-tabset
+## Código
+
+```{r}
+#| echo: TRUE
+
+datos_elecciones_tidy <- 
+  datos_elecciones |> 
+  mutate(across(where(is.logical), as.numeric)) |> 
+  select(-c(tipo_eleccion, vuelta, codigo_distrito_electoral)) |> 
+  pivot_longer(cols = -("anno": "votos_candidaturas"),
+                names_to = "partido",
+                values_to = "votos",
+                values_drop_na = TRUE ) |> 
+  filter(votos > 0)
+
+datos_elecciones_tidy <- datos_elecciones_tidy |> 
+  mutate(fecha = ymd(glue("{anno}{mes}01")),
+         cod_mun = glue("{codigo_ccaa}-{codigo_provincia}-{codigo_municipio}"))
+
+datos_elecciones_tidy <-  datos_elecciones_tidy |> 
+  left_join(cod_mun, by = "cod_mun")
+```
+
+## Crear siglas
+
+```{r}
+#| echo: true
+datos_elecciones_tidy <-
+  datos_elecciones_tidy |> 
+  mutate(siglas = case_when(str_detect( partido, "SOCIALIST") ~ "PSOE",
+                            str_detect(partido,"PARTIDO POPULAR")~ "PP",
+                            str_detect(partido, "CIUDADANOS |CIUTADANS") ~ "CS",
+                            str_detect(partido, "PODEM") ~ "UP",
+                            str_detect(partido, "VOX") ~ "VOX",
+                            str_detect(partido, "PARTIDO NACIONALISTA VASCO") ~ "PNV",
+                            str_detect(partido, "BLOQUE NACIONALISTA GALEGO") ~ "BNG",
+                            str_detect(partido, "COMPROMÍS") ~ "Compromís",
+                            str_detect(partido, "CONVERGÈNCIA I UNIÓ") ~ "CiU",
+                            str_detect(partido, "ESQUERRA REPUBLICANA DE CATALUNYA") ~ "ERC",
+                            str_detect(partido, "EH-BILDU") ~ "EH Bildu",
+                            str_detect(partido, "MÁS PAÍS") ~ "Más País",
+                             TRUE ~ "OTROS" ))
+# sumanos los votos de los partidos pertenecientes al mismo grupo
+datos_elecciones_tidy <- datos_elecciones_tidy |> 
+  mutate(votos = sum(votos), .by = c(fecha, cod_mun, siglas)) |> 
+  distinct(fecha, cod_mun, siglas, .keep_all = TRUE)
+```
+
+## Resultado
+
+> resunmen de la tabla para hacernos una idea del resultado.
+
+```{r}
+#| echo: FALSE
+datos_elecciones_tidy |> 
+  select(fecha, cod_mun, votos, partido, siglas) |> 
+  head()
+
+```
+:::
+
+## Tabla encuestas
+
+. . .
+
+::: panel-tabset
+## Código
+
+```{r}
+#| echo: true
+encuestas_tidy <-
+  encuestas |> 
+  pivot_longer(cols = -("type_survey":"turnout"),
+               names_to = "partido",
+               values_to = "votos",
+               values_drop_na = TRUE) |> 
+  filter(field_date_to - field_date_from > 1 & year(date_elec)>= 2018 &
+           exit_poll == FALSE &  size >= 750) |> 
+  drop_na(size) |> 
+  select(-c(type_survey, exit_poll))
+  
+
+```
+
+## Resultado
+
+```{r}
+head(encuestas_tidy)
+```
+:::
+# Funciones {background-color="#07202E"}
+Funciones que implemantaremos para facilitarnos el trabajo
+
+## Funcion 1
+> calcular el partido que quedo en la posición n
+
+```{r}
+#| echo: true
+n_votado <- function(partidos, votos, n = 1) {
+  datos <- tibble(partidos, votos) 
+  siglas <-
+    datos |>
+    slice_max(n = n, votos, with_ties = FALSE) |> 
+    slice_min(n = 1, votos, with_ties = FALSE) |> 
+    pull(partidos)
+ # output <- arrange(desc(votos)) |> slice(n, votos) |> pull(siglas)
+  # mejor manera
+  
+  return(siglas)
+}
+```
+
+
+# Estudio de los datos {background-color="#07202E"}
+
+## Pregunta 1
+
+¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?
+
+
+```{r}
+#| echo: False
+votos_elecciones <- datos_elecciones_tidy |> 
+  mutate(Grupo = ifelse(siglas %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP - IU"),
+                        "Nacionales ", "Nacionalistas "))
+
+# argupar
+votos_elecciones <- votos_elecciones |> 
+  group_by(Grupo) |> # meterle fecha
+  summarise(votos = sum(votos))
+
+# Reordenar
+votos_elecciones <- votos_elecciones |> # intentar hacer el de sectores
+  mutate(Grupo = fct_reorder(Grupo, votos))
+
+```
+
+
+```{r}
+# ggplot
+ggplot(votos_elecciones, aes(x = Grupo, y = votos, fill = Grupo)) +
+  geom_bar(stat = "identity", position = "stack") +
+  
+  labs(title = "Votos por tipo de partido",
+       x = "Tipo de partido",
+       y = "Votos") +
+  scale_y_continuous(limits = c(0, 1.0e+08), labels = scales::comma_format()) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+## Pregunta 2
+
+¿Cuál es el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones.
+
+::: panel-tabset
+
+## Código
+
+```{r}
+#| echo: true
+#| eval: false
+datos_elecciones_tidy |> 
+  group_by(fecha, cod_mun) |> 
+  filter(censo > 100000) |> 
+  slice_max(votos, n = 1) |> 
+  select(fecha, municipio, votos, siglas, censo)
+
+```
+
+## resultado
+
+```{r}
+datos_elecciones_tidy |> 
+  group_by(fecha, cod_mun) |> 
+  filter(censo > 100000) |> 
+  slice_max(votos, n = 1) |> 
+  select(fecha, municipio, votos, siglas, censo) |> 
+  head()
+
+
+
+```
+
+
+:::
+
+## Pregunta 3
+ ¿Qué partido fue el segundo cuando el primero fue el PSOE? ¿Y cuándo el primero fue el PP?
+
+::: panel-tabset
+
+## codigo
+```{r}
+#| eval: true
+#| echo: true
+
+
+# creamos una tabla nueva que nos guarda los ganadores y segundos de cada ellecion
+datos_ganadores <- 
+  datos_elecciones_tidy |> 
+  filter(fecha == max(fecha)) |> # he puesto solo las ultimas elecciones pq si no tarda mucho
+  mutate(ganador = n_votado(siglas, votos),
+         segundo = n_votado(siglas, votos, n = 2),
+         .by = c(fecha, cod_mun)) |> 
+  distinct(fecha, cod_mun, ganador, segundo, .keep_all = TRUE)
+# calculamos que partidos fueron segundos cuando gano el PSOE
+datos_ganadores_psoe <- datos_ganadores |>
+  filter(ganador == "PSOE") |> 
+  count(segundo, sort = TRUE)
+# lo mismo para el PP
+datos_ganadores_pp <- datos_ganadores |>
+  filter(ganador == "PP") |> 
+  count(segundo, sort = TRUE)
+```
+## PSOE
+
+```{r}
+# Gráfico para el PSOE
+
+ datos_ganadores_psoe|> 
+ggplot(aes(x = segundo, y = n, fill = segundo)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Partido segundo cuando ganó el PSOE",
+       x = "Partido segundo",
+       y = "Número de veces") +
+    scale_fill_manual(values = colores_partidos) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+```
+
+## PP
+```{r}
+
+datos_ganadores_pp |> 
+ggplot(aes(x = segundo, y = n, fill = segundo)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Partido segundo cuando ganó el PP",
+       x = "Partido segundo",
+       y = "Número de veces") +
+  scale_fill_manual(values = colores_partidos) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+:::
+
+## Pregunta 4 
+¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?
+
+::: panel-tabset
+
+### Código
+```{r}
+#| echo: True
+#| eval: false
+
+diferencia <-
+  datos_elecciones_tidy |> 
+  filter(censo > 2000) |> 
+  filter(fecha == max(fecha)) |> 
+  group_by(municipio) |> 
+  summarize(diferencia = max(votos) - max(votos[votos != max(votos)])) |> 
+  arrange(desc(diferencia))
+
+diferencia |> 
+  inner_join(datos_ganadores, by = "municipio") |> 
+  select(municipio, diferencia, ganador)
+  
+```
+
+### Resultado
+
+```{r}
+#| echo: false
+#| eval: true
+
+diferencia <-
+  datos_elecciones_tidy |> 
+  filter(censo > 2000) |> 
+  filter(fecha == max(fecha)) |> 
+  group_by(municipio) |> 
+  summarize(diferencia = max(votos) - max(votos[votos != max(votos)])) |> 
+  arrange(desc(diferencia))
+
+diferencia |> 
+  inner_join(datos_ganadores, by = "municipio") |> 
+  select(municipio, diferencia, ganador)
+  
+```
+
+> observamos que el cuando hay un claro ganador, este suele ser el PSOE (a excepción del Pais Vasco)
+
+:::
+
+## Pregunta 5 
+¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?
+
+
+```{r}
+#| eval: false
+#| echo: true
+datos_elecciones_tidy |> 
+  mutate(por_nul = votos_nulos/votos_candidaturas *100) |> 
+  distinct(municipio, .keep_all = TRUE) |> 
+  arrange(desc(por_nul)) |> 
+  select(por_nul, municipio)
+```
+
+Requena de Campos (16,66%) Palencia
+
+Narrillos del Rebollar (15,62%) Ávila
+
+Encinasola (12,53%) Huelva
+
+Estepa de San Juan (12,5%) Soria
+
+Valdehijaderos (11,53%) Salamanca
+
+Valdevacas de Montejo (11,11%) Segovia
+
+Piérnigas (8,82%) Burgos
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+
+```{r}
+datos_participacion <-
+datos_ganadores |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+```
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+datos_participacion <-
+datos_ganadores|>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+```
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 5-9
+datos_participacion <-
+datos_elecciones_tidy |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+```
+
+## Pregunta 6
+¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 10-15
+datos_participacion <-
+datos_elecciones_tidy |>
+  mutate(participacion = (votos_blancos + votos_nulos + votos_candidaturas)/censo*100) 
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador)
+
+```
+
+## Pregunta 6
+::: panel-tabset
+## Más part
+```{r}
+# sitios con mayor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange(desc(participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador) |> 
+  head()
+
+```
+
+## Menos part
+```{r}
+# sitios con menor participacion y sus ganadores
+datos_participacion |> 
+  distinct(cod_mun, .keep_all = TRUE) |> 
+  #group_by(fecha) |> # Ahora mismo no es necesario pq solo estan la ultima
+  arrange((participacion)) |> 
+  select(fecha, cod_mun, participacion, ganador) |> 
+  head()
+```
+
+:::
+> observamos que la baja participación beneficia a los partidos minoritarios y menos conocidos
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 1-3
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 4-6
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 7-9
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 10-12
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: 13-17
+
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+
+## Pregunta 7
+¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
+
+
+```{r}
+#| eval: True
+#| echo: false
+# Define los intervalos que vamos utilizar
+intervalos <- c(0, 1000, 10000, 100000, 1000000, 3000000)
+# Crea la nueva variable censo_a
+datos_censo <- datos_ganadores |> 
+  mutate(censo_a = cut(censo, breaks = intervalos, labels = c("0-1k", "1k-10k", "10k-100k","100k-1M", "1M-3M"), include.lowest = TRUE))
+a <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(censo_a) 
+b <- datos_censo |> 
+  group_by(censo_a) |> 
+  count(ganador)
+c <- b |> 
+  inner_join(a, by = "censo_a")
+  ggplot(c)+
+  geom_col(aes(x= ganador, y = n.x/n.y * 100)) +
+  facet_wrap(~censo_a)
+
+```
+
+> estos grafico representa el que porcentaje de municipios gano cada partido para cada uno de los grupos de censos 
