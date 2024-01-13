@@ -785,6 +785,26 @@ ggplot(aa) +
     y = "Error medio (porcentaje)"
   )
 
+
+
+datos_completos <- encuestas |>
+  left_join(datos_elecciones, by = c("fecha", "cod_mun"))
+
+datos_completos$ponderacion_ajustada <- datos_completos$size / sum(datos_completos$size)
+
+ggplot(datos_completos, aes(x = votos, y = votos_candidaturas, color = partido)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Comparación de Encuestas con Resultados Reales",
+       x = "Estimación de Intención de Voto",
+       y = "Resultado Real",
+       color = "Partido") +
+  theme_minimal()
+
+# Calcular el MAE la mejor manera que hemos visto para calibrar error
+mae <- mean(abs(datos_completos$votos - datos_completos$votos_candidaturas))
+print(paste("MAE: ", mae))
+
 ```
 
 ##Pregunta 9
