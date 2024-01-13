@@ -439,7 +439,7 @@ datos_participacion |>
 
 ## Pregunta 6
 ::: panel-tabset
-## Más part
+## Más participación
 ```{r}
 # sitios con mayor participacion y sus ganadores
 datos_participacion |> 
@@ -451,7 +451,7 @@ datos_participacion |>
 
 ```
 
-## Menos part
+## Menos participación
 ```{r}
 # sitios con menor participacion y sus ganadores
 datos_participacion |> 
@@ -463,7 +463,7 @@ datos_participacion |>
 ```
 
 :::
-> observamos que la baja participación beneficia a los partidos minoritarios y menos conocidos
+> Observamos que la baja participación beneficia a los partidos minoritarios y menos conocidos
 
 ## Pregunta 7
 ¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?
@@ -665,4 +665,4 @@ c <- b |>
 
 ```
 
-> estos grafico representa el que porcentaje de municipios gano cada partido para cada uno de los grupos de censos 
+> Estos grafico representa el que porcentaje de municipios gano cada partido para cada uno de los grupos de censos 
