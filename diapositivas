@@ -184,8 +184,6 @@ ggplot(votos_elecciones, aes(x = fecha, y = votos, color = Grupo)) +
   scale_y_continuous(limits = c(0, 2.5e+07), labels = scales::comma_format()) +
   theme_minimal() +
   theme(legend.position = "bottom")
-
-ggplotly(g)
 ```
 
 
