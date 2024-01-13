@@ -26,11 +26,11 @@ colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "
 "CS"="#f64901","CUP"="orange", "PNV"="#2a8243", "ERC"= "#fbbc00", "BNG"="#76b3dd","Compromís"="#d85127", 
 "MP"="#00e2c6"```
 
-# Introduccion
+# Introduccion {background-color="#07202E"}
 
 # Paso a Tidydata {background-color="#07202E"}
 
-## tabla elecciones
+## Tabla elecciones
 
 ::: panel-tabset
 ## Código
@@ -81,9 +81,9 @@ datos_elecciones_tidy <- datos_elecciones_tidy |>
   distinct(fecha, cod_mun, siglas, .keep_all = TRUE)
 ```
 
-## Resultado
+## Resultado {background-color="#07202E"}
 
-> resunmen de la tabla para hacernos una idea del resultado.
+> Resumen de la tabla para hacernos una idea del resultado.
 
 ```{r}
 #| echo: FALSE
@@ -117,7 +117,7 @@ encuestas_tidy <-
 
 ```
 
-## Resultado
+## Resultado {background-color="#07202E"}
 
 ```{r}
 head(encuestas_tidy)
@@ -203,7 +203,7 @@ datos_elecciones_tidy |>
 
 ```
 
-## resultado
+## Resultado {background-color="#07202E"}
 
 ```{r}
 datos_elecciones_tidy |> 
@@ -306,7 +306,7 @@ diferencia |>
   
 ```
 
-### Resultado
+### Resultado {background-color="#07202E"}
 
 ```{r}
 #| echo: false
