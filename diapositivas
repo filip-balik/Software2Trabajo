@@ -818,22 +818,25 @@ print(paste("MAE: ", mae))
 
 ¿En qué elección se equivocaron más las encuestas?
 
+> utilizando el gráfico de la pregunta anterior observamos que el las segundas elecciones hay mucha menor desviación, esto es debido a la proxmidad con las elecciones anteriores
+
 ```{r}
-encuestas_generales <- encuestas_tidy |>
-  filter(type_survey == "national")
-errores <- encuestas_generales |>
-  group_by(date_elec) |>
-  summarise(error = mean(abs(votos - votos_candidaturas)))
-mayor_error <- errores |>
-  filter(error == max(error))
-print(mayor_error)
+elecciones_encuestas |>
+  mutate(diferencia = abs(per_votos - votos_e)) |> 
+  summarise(media_error = mean(diferencia), .by = c(fecha.x, siglas)) |> ## realizar graficos
+  ggplot() +
+  geom_col(aes(x = siglas, y = diferencia), position = "dodge") +
+  facet_wrap(~fecha.x) +
+    scale_fill_gradient(low = "green", high = "red") +
+  geom_hline(yintercept = media_global$media_error, color = "black", linetype = "dashed") +
+  theme_minimal() +
+  coord_flip() +
+  labs(
+    title = "Error de las encuestas de intención de voto en España",
+    x = "Partido",
+    y = "Error medio (porcentaje)"
+  )
 
-
-ggplot(errores, aes(x = date_elec, y = error)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Error de las encuestas en las elecciones generales",
-       x = "Fecha de las elecciones",
-       y = "Error promedio")
 
 ```
 
@@ -842,42 +845,65 @@ ggplot(errores, aes(x = date_elec, y = error)) +
 ¿Cómo se equivocaron las encuestas en partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU)
 
 ```{r}
-encuestas_generales <- encuestas_tidy |>
-  filter(type_survey == "national")
+#| echo: true
+#| eval: false
+elecciones_encuestas |> 
+  filter(siglas %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP")) |> 
+  mutate(diferencia = votos_e - per_votos) |> 
+  summarise( error_medio = mean(diferencia), .by = c(fecha.y, siglas)) |> 
+  ggplot() +
+  geom_col(aes(x = siglas, y =error_medio), alpha = 0.7) +
+  facet_wrap(~fecha.y)
+```
 
-encuestas_generales_partido <- encuestas_generales |>
-  filter(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP - IU"))
+```{r}
+elecciones_encuestas |> 
+  filter(siglas %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP")) |> 
+  mutate(diferencia = votos_e - per_votos) |> 
+  summarise( error_medio = mean(diferencia), .by = c(fecha.y, siglas)) |> 
+  ggplot() +
+  geom_col(aes(x = siglas, y =error_medio), alpha = 0.7) +
+  facet_wrap(~fecha.y)
 
-errores_partido <- encuestas_generales_partido |>
-  group_by(partido) |>
-  summarise(error = mean(abs(votos - votos_candidaturas)))
-
-ggplot(errores_partido, aes(x = partido, y = error)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Error de las encuestas en los partidos de ámbito nacional",
-       x = "Partido",
-       y = "Error promedio")
 ```
 
 ##Pregunta 11
 
 ¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?
 
+¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?
+> utilizamos el codigo de la pregunta 8
+
+::: panel-tabset
+
+## Más acierto
 ```{r}
-encuestas_generales <- encuestas_tidy |>
-  filter(type_survey == "national")
-
-errores_encuestadoras <- encuestas_generales |>
-  group_by(encuestadora) |>
-  summarise(error = mean(abs(votos - votos_candidaturas)))
-
-errores_encuestadoras <- errores_encuestadoras |>
-  arrange(error)
-
-
-ggplot(errores_encuestadoras, aes(x = encuestadora, y = error)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Error de las encuestas por casa encuestadora",
-       x = "Casa encuestadora",
-       y = "Error promedio")
+#| echo: true
+#| eval: false
+elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.x, media)) |> 
+  arrange(media_error) 
 ```
+
+```{r}
+elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.x, media)) |> 
+  arrange(media_error) |> 
+  head()
+
+```
+
+## Menos acierto
+```{r}
+#| echo: true
+#| eval: false
+elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.x, media)) |> 
+  arrange(desc(media_error)) 
+
+```
+
+```{r}
+elecciones_encuestas |> summarise(media_error = mean(diferencia), .by = c(fecha.x, media)) |> 
+  arrange(media_error) |> 
+  head()
+```
+
+:::
