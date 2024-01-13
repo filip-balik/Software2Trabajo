@@ -24,7 +24,8 @@ siglas <- read_csv(file = "./datos/siglas.csv")
 ```{r}
 colores_partidos <- c("PP" = "#1e4c90", "VOX" = "#5ac035", "PSOE" = "#e40513", "UP"="#800080" , 
 "CS"="#f64901","CUP"="orange", "PNV"="#2a8243", "ERC"= "#fbbc00", "BNG"="#76b3dd","Compromís"="#d85127", 
-"MP"="#00e2c6"```
+"MP"="#00e2c6")
+```
 
 # Introduccion {background-color="#07202E"}
 
