@@ -741,17 +741,83 @@ c <- b |>
 > Estos grafico representa el que porcentaje de municipios gano cada partido para cada uno de los grupos de censos 
 
 ##Pregunta 8
+
 ¿Cómo calibrar el error de las encuestas? ¿Cómo visualizarlo? (recuerda que las encuestas son intención de voto a nivel nacional)
 
-```{r}
+> Modificamos la tabla encuestas para poder unirla a las elecciones
 
+```{r}
+#| echo: true
+#| eval: false
 encuestas_tidy <- encuestas_tidy |> 
-  mutate(votos_e = votos) |> 
-  mutate(siglas = case_when(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP","BNG","Compromís","ERC","CiU","Eh Bildu","PNV") ~partido,
+  rename(votos_e = votos) |> 
+  mutate(siglas = case_when(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP","BNG","Compromís","ERC","CiU","Eh Bildu","PNV") ~ partido,
                             TRUE ~ "OTROS")) |>  # lo cambiamos para que tenga las mismas siglas que la tabla elecciones
   mutate(fecha = date_elec) |> 
-  mutate(votos_e = sum(votos_e), .by = c(fecha, media,siglas)) |> 
+  mutate(votos_e = mean(votos_e), .by = c(fecha, media,siglas)) |> 
   distinct(fecha, media, siglas, .keep_all = TRUE) |>  # sumamos los votos de cada una de las siglas
+  select(fecha, media, siglas,turnout, votos_e)
+```
+##Pregunta 8
+> Calculamos pa participacion en cada una de las elecciones y los votos totales a nivel nacional
+
+```{r}
+#| echo: true
+#| eval: false
+participacion_tot <- datos_elecciones_tidy |>  # calculamos la participacion total de cada eleccion
+  filter(year(fecha)> 2018) |> 
+  group_by(fecha) |> 
+  distinct(municipio, .keep_all = TRUE) |> 
+  mutate(participacion = votos_blancos + votos_nulos + votos_candidaturas)  |> 
+  summarise(participacion_tot =sum(participacion))
+  
+elecciones_encuestas <- datos_elecciones_tidy |> 
+  filter(year(fecha)> 2018) |> 
+  mutate(votos_tot = sum(votos), .by = c(fecha, siglas)) |>  # votos totales a nivel nacional 
+  distinct(fecha, siglas, .keep_all = TRUE)
+
+elecciones_encuestas <- elecciones_encuestas |> 
+  inner_join(participacion_tot, by = "fecha") |> 
+  mutate(per_votos = votos_tot / participacion_tot *100) # ponemos los votos en modo de porcentaje como en las encuestas
+```
+
+## Pregunta 8
+> unimos las dos tablas y creamos el gráfico
+
+```{r}
+#| echo: true
+#| eval: false
+elecciones_encuestas <- elecciones_encuestas |> 
+  inner_join(encuestas_tidy, by = c("siglas"))  |> ## juntamos las tablas y calculamos el error
+  filter(month(fecha.x) == month(fecha.y)) |> 
+
+elecciones_encuestas |>
+  mutate(diferencia = abs(per_votos - votos_e)) |> 
+  summarise(media_error = mean(diferencia), .by = c(fecha.x, siglas)) |> ## realizar graficos
+  ggplot() +
+  geom_col(aes(x = siglas, y = media_error), position = "dodge") +
+  facet_wrap(~fecha.x) +
+    scale_fill_gradient(low = "green", high = "red") +
+  #geom_hline(yintercept = media_global$media_error, color = "black", linetype = "dashed") +
+  theme_minimal() +
+  coord_flip() +
+  labs(
+    title = "Error de las encuestas de intención de voto en España",
+    x = "Partido",
+    y = "Error medio (porcentaje)"
+  )
+
+```
+
+## Pregunta 8
+```{r}
+encuestas_tidy <- encuestas_tidy |> 
+  rename(votos_e = votos) |> 
+  mutate(siglas = case_when(partido %in% c("PSOE", "PP", "VOX", "CS", "MP", "UP","BNG","Compromís","ERC","CiU","Eh Bildu","PNV") ~ partido,
+                            TRUE ~ "OTROS")) |> # lo cambiamos para que tenga las mismas siglas que la tabla elecciones
+  mutate(fecha = date_elec) |> 
+  mutate(votos_e = mean(votos_e), .by = c(fecha, media,siglas)) |> 
+  distinct(fecha, media, siglas, .keep_all = TRUE)  |>  # sumamos los votos de cada una de las siglas
   select(fecha, media, siglas,turnout, votos_e)
 
 participacion_tot <- datos_elecciones_tidy |>  # calculamos la participacion total de cada eleccion
@@ -771,19 +837,18 @@ elecciones_encuestas <- elecciones_encuestas |>
   inner_join(participacion_tot, by = "fecha") |> 
   mutate(per_votos = votos_tot / participacion_tot *100) # ponemos los votos en modo de porcentaje como en las encuestas
 
-aa <- elecciones_encuestas  |> 
-  inner_join(encuestas_tidy, by = c("siglas"))  |> 
-  filter(month(fecha.x) == month(fecha.y))  |> 
-  mutate(diferencia = abs(per_votos - votos_e))
-
-media_global <- aa  |> 
-  summarise(media_error = mean(diferencia))
-
-ggplot(aa) +
-  geom_col(aes(x = siglas, y = diferencia), position = "dodge") +
+elecciones_encuestas <- elecciones_encuestas |> 
+  inner_join(encuestas_tidy, by = c("siglas"))  |> # juntamos las tablas y calculamos el error
+  filter(month(fecha.x) == month(fecha.y)) 
+ 
+elecciones_encuestas |>
+  mutate(diferencia = abs(per_votos - votos_e)) |> 
+  summarise(media_error = mean(diferencia), .by = c(fecha.x, siglas)) |> ## realizar graficos
+  ggplot() +
+  geom_col(aes(x = siglas, y = media_error), position = "dodge") +
   facet_wrap(~fecha.x) +
     scale_fill_gradient(low = "green", high = "red") +
-  geom_hline(yintercept = media_global$media_error, color = "black", linetype = "dashed") +
+  #geom_hline(yintercept = media_global$media_error, color = "black", linetype = "dashed") +
   theme_minimal() +
   coord_flip() +
   labs(
@@ -792,27 +857,10 @@ ggplot(aa) +
     y = "Error medio (porcentaje)"
   )
 
-
-
-datos_completos <- encuestas |>
-  left_join(datos_elecciones, by = c("fecha", "cod_mun"))
-
-datos_completos$ponderacion_ajustada <- datos_completos$size / sum(datos_completos$size)
-
-ggplot(datos_completos, aes(x = votos, y = votos_candidaturas, color = partido)) +
-  geom_point() +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
-  labs(title = "Comparación de Encuestas con Resultados Reales",
-       x = "Estimación de Intención de Voto",
-       y = "Resultado Real",
-       color = "Partido") +
-  theme_minimal()
-
-# Calcular el MAE la mejor manera que hemos visto para calibrar error
-mae <- mean(abs(datos_completos$votos - datos_completos$votos_candidaturas))
-print(paste("MAE: ", mae))
-
 ```
+
+
+
 
 ##Pregunta 9
 
