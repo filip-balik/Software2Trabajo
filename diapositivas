@@ -11,6 +11,8 @@ library(tidyverse)
 library(ggplot2)
 library(glue)
 library(lubridate)
+library(plotly)
+library(forcats)
 ```
 
 ```{r}
@@ -173,14 +175,19 @@ votos_elecciones <- votos_elecciones |>
 
 ```{r}
 # ggplot
-ggplot(votos_elecciones, aes(x = fecha, y = votos, color = Grupo)) +
+
+votos_elecciones |> 
+  mutate(Grupo = factor(Grupo, levels = c("Izquierda", "Centro", "Derecha"))) |> 
+  ggplot(aes(x = fecha, y = votos, color = Grupo)) +
   geom_line() +
   labs(title = "Votos por tipo de partido",
        x = "Fecha",
        y = "Votos") +
   scale_y_continuous(limits = c(0, 2.5e+07), labels = scales::comma_format()) +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") -> g
+
+ggplotly(g)
 ```
 
 
