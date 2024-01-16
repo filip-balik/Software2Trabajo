@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Filip Balik (NIE: X9509235T), Daniel García Rodriguez de Sepúlveda (DNI: 70829427F)">
+
+<title>Entrega Grupal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="entrega-grupal_final_files/libs/clipboard/clipboard.min.js"></script>
+<script src="entrega-grupal_final_files/libs/quarto-html/quarto.js"></script>
+<script src="entrega-grupal_final_files/libs/quarto-html/popper.min.js"></script>
+<script src="entrega-grupal_final_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="entrega-grupal_final_files/libs/quarto-html/anchor.min.js"></script>
+<link href="entrega-grupal_final_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="entrega-grupal_final_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="entrega-grupal_final_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="entrega-grupal_final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="entrega-grupal_final_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="entrega-grupal_final_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="entrega-grupal_final_files/libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="entrega-grupal_final_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="entrega-grupal_final_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="entrega-grupal_final_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="entrega-grupal_final_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="entrega-grupal_final_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="entrega-grupal_final_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#instrucciones-leer-antes-de-empezar" id="toc-instrucciones-leer-antes-de-empezar" class="nav-link active" data-scroll-target="#instrucciones-leer-antes-de-empezar">Instrucciones (leer antes de empezar)</a>
+  <ul class="collapse">
+  <li><a href="#paquetes-necesarios" id="toc-paquetes-necesarios" class="nav-link" data-scroll-target="#paquetes-necesarios">Paquetes necesarios</a></li>
+  </ul></li>
+  <li><a href="#práctica-grupal" id="toc-práctica-grupal" class="nav-link" data-scroll-target="#práctica-grupal">Práctica grupal</a>
+  <ul class="collapse">
+  <li><a href="#datos" id="toc-datos" class="nav-link" data-scroll-target="#datos">Datos</a></li>
+  <li><a href="#depuracion-y-manejo-de-datos" id="toc-depuracion-y-manejo-de-datos" class="nav-link" data-scroll-target="#depuracion-y-manejo-de-datos">Depuracion y manejo de datos</a></li>
+  <li><a href="#funcion-n-votado" id="toc-funcion-n-votado" class="nav-link" data-scroll-target="#funcion-n-votado">Funcion n-votado</a></li>
+  <li><a href="#pregunta-1" id="toc-pregunta-1" class="nav-link" data-scroll-target="#pregunta-1">Pregunta 1</a></li>
+  <li><a href="#cómo-se-reparte-el-voto-de-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu-frente-a-los-partidos-de-corte-autonómico-o-nacionalista" id="toc-cómo-se-reparte-el-voto-de-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu-frente-a-los-partidos-de-corte-autonómico-o-nacionalista" class="nav-link" data-scroll-target="#cómo-se-reparte-el-voto-de-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu-frente-a-los-partidos-de-corte-autonómico-o-nacionalista">¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?</a></li>
+  </ul></li>
+  <li><a href="#pregunta-2" id="toc-pregunta-2" class="nav-link" data-scroll-target="#pregunta-2">Pregunta 2</a></li>
+  <li><a href="#cuál-es-el-partido-ganador-en-los-municipios-de-más-de-100-000-habitantes-de-censo-en-cada-una-de-las-elecciones." id="toc-cuál-es-el-partido-ganador-en-los-municipios-de-más-de-100-000-habitantes-de-censo-en-cada-una-de-las-elecciones." class="nav-link" data-scroll-target="#cuál-es-el-partido-ganador-en-los-municipios-de-más-de-100-000-habitantes-de-censo-en-cada-una-de-las-elecciones.">¿Cuál es el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones.</a></li>
+  <li><a href="#pregunta-3" id="toc-pregunta-3" class="nav-link" data-scroll-target="#pregunta-3">Pregunta 3</a></li>
+  <li><a href="#qué-partido-fue-el-segundo-cuando-el-primero-fue-el-psoe-y-cuándo-el-primero-fue-el-pp" id="toc-qué-partido-fue-el-segundo-cuando-el-primero-fue-el-psoe-y-cuándo-el-primero-fue-el-pp" class="nav-link" data-scroll-target="#qué-partido-fue-el-segundo-cuando-el-primero-fue-el-psoe-y-cuándo-el-primero-fue-el-pp">¿Qué partido fue el segundo cuando el primero fue el PSOE? ¿Y cuándo el primero fue el PP?</a></li>
+  <li><a href="#pregunta-4" id="toc-pregunta-4" class="nav-link" data-scroll-target="#pregunta-4">Pregunta 4</a></li>
+  <li><a href="#en-qué-municipios-de-más-2000-habitantes-de-censo-provincias-o-autonomías-la-diferencia-entre-el-ganador-y-el-segundo-es-más-elevada" id="toc-en-qué-municipios-de-más-2000-habitantes-de-censo-provincias-o-autonomías-la-diferencia-entre-el-ganador-y-el-segundo-es-más-elevada" class="nav-link" data-scroll-target="#en-qué-municipios-de-más-2000-habitantes-de-censo-provincias-o-autonomías-la-diferencia-entre-el-ganador-y-el-segundo-es-más-elevada">¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?</a></li>
+  <li><a href="#pregunta-5" id="toc-pregunta-5" class="nav-link" data-scroll-target="#pregunta-5">Pregunta 5</a></li>
+  <li><a href="#cuáles-son-los-municipios-con-mayor-porcentaje-de-votos-nulos-de-españa" id="toc-cuáles-son-los-municipios-con-mayor-porcentaje-de-votos-nulos-de-españa" class="nav-link" data-scroll-target="#cuáles-son-los-municipios-con-mayor-porcentaje-de-votos-nulos-de-españa">¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?</a></li>
+  <li><a href="#pregunta-6" id="toc-pregunta-6" class="nav-link" data-scroll-target="#pregunta-6">Pregunta 6</a></li>
+  <li><a href="#en-qué-sitios-hay-mayor-participación-quién-ganó-en-los-sitios-con-mayor-participación-y-donde-menos-a-quién-le-beneficia-la-baja-participación" id="toc-en-qué-sitios-hay-mayor-participación-quién-ganó-en-los-sitios-con-mayor-participación-y-donde-menos-a-quién-le-beneficia-la-baja-participación" class="nav-link" data-scroll-target="#en-qué-sitios-hay-mayor-participación-quién-ganó-en-los-sitios-con-mayor-participación-y-donde-menos-a-quién-le-beneficia-la-baja-participación">¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?</a></li>
+  <li><a href="#pregunta-7" id="toc-pregunta-7" class="nav-link" data-scroll-target="#pregunta-7">Pregunta 7</a></li>
+  <li><a href="#cómo-analizar-la-relación-entre-censo-y-voto-es-cierto-que-ciertos-partidos-ganan-lo-rural" id="toc-cómo-analizar-la-relación-entre-censo-y-voto-es-cierto-que-ciertos-partidos-ganan-lo-rural" class="nav-link" data-scroll-target="#cómo-analizar-la-relación-entre-censo-y-voto-es-cierto-que-ciertos-partidos-ganan-lo-rural">¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?</a></li>
+  <li><a href="#pregunta-8" id="toc-pregunta-8" class="nav-link" data-scroll-target="#pregunta-8">Pregunta 8</a></li>
+  <li><a href="#cómo-calibrar-el-error-de-las-encuestas-cómo-visualizarlo-recuerda-que-las-encuestas-son-intención-de-voto-a-nivel-nacional" id="toc-cómo-calibrar-el-error-de-las-encuestas-cómo-visualizarlo-recuerda-que-las-encuestas-son-intención-de-voto-a-nivel-nacional" class="nav-link" data-scroll-target="#cómo-calibrar-el-error-de-las-encuestas-cómo-visualizarlo-recuerda-que-las-encuestas-son-intención-de-voto-a-nivel-nacional">¿Cómo calibrar el error de las encuestas? ¿Cómo visualizarlo? (recuerda que las encuestas son intención de voto a nivel nacional)</a></li>
+  <li><a href="#pregunta-9" id="toc-pregunta-9" class="nav-link" data-scroll-target="#pregunta-9">Pregunta 9</a></li>
+  <li><a href="#pregunta-10" id="toc-pregunta-10" class="nav-link" data-scroll-target="#pregunta-10">Pregunta 10</a></li>
+  <li><a href="#cómo-se-equivocaron-las-encuestas-en-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu" id="toc-cómo-se-equivocaron-las-encuestas-en-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu" class="nav-link" data-scroll-target="#cómo-se-equivocaron-las-encuestas-en-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu">¿Cómo se equivocaron las encuestas en partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU)</a></li>
+  <li><a href="#pregunta-11" id="toc-pregunta-11" class="nav-link" data-scroll-target="#pregunta-11">Pregunta 11</a></li>
+  <li><a href="#qué-casas-encuestadores-acertaron-más-y-cuales-se-desviaron-más-de-los-resultados" id="toc-qué-casas-encuestadores-acertaron-más-y-cuales-se-desviaron-más-de-los-resultados" class="nav-link" data-scroll-target="#qué-casas-encuestadores-acertaron-más-y-cuales-se-desviaron-más-de-los-resultados">¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Entrega Grupal</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Filip Balik (NIE: X9509235T), Daniel García Rodriguez de Sepúlveda (DNI: 70829427F) </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="instrucciones-leer-antes-de-empezar" class="level2">
+<h2 class="anchored" data-anchor-id="instrucciones-leer-antes-de-empezar">Instrucciones (leer antes de empezar)</h2>
+<ul>
+<li><p>Modificad dentro del documento <code>.qmd</code> vuestros datos personales (nombres y DNI) ubicados en la cabecera del archivo.</p></li>
+<li><p>Aseguraos, <strong>ANTES de seguir editando</strong> el documento, que el archivo <code>.qmd</code> se renderiza correctamente y se genera el <code>.html</code> correspondiente en tu carpeta local de tu ordenador.</p></li>
+<li><p>Los chunks (cajas de código) creados están o vacíos o incompletos. Una vez que editeis lo que consideres, debeis ir cambiando cada chunck a <code>#| eval: true</code> (o quitarlo directamente) para que se ejecuten.</p></li>
+<li><p>Recordad que puedes ejecutar chunk a chunk con el botón <em>play</em> o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).</p></li>
+</ul>
+<section id="paquetes-necesarios" class="level3">
+<h3 class="anchored" data-anchor-id="paquetes-necesarios">Paquetes necesarios</h3>
+<blockquote class="blockquote">
+<p>Introduce en el chunk inferior los paquetes que vayas a necesitar</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>()) <span class="co"># Borramos variables de environment</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'plotly' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="práctica-grupal" class="level2">
+<h2 class="anchored" data-anchor-id="práctica-grupal">Práctica grupal</h2>
+<section id="datos" class="level3">
+<h3 class="anchored" data-anchor-id="datos">Datos</h3>
+<p>La práctica versará entorno a los <strong>archivos de datos electorales</strong> que ya hemos trabajado, recopilando datos de citas electorales al Congreso de los Diputados de España desde 2008 hasta la actualidad</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NO TOQUES NADA</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>datos_elecciones <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"./datos/datos_elecciones_brutos.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 48737 Columns: 471
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (5): tipo_eleccion, mes, codigo_ccaa, codigo_provincia, codigo_municipio
+dbl (424): anno, vuelta, codigo_distrito_electoral, numero_mesas, censo, par...
+lgl  (42): FALANGE ESPAÑOLA DE LA JONS, PARTIDO COMUNISTA DEL PUEBLO CASTELL...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cod_mun <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"./datos/cod_mun.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 8135 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): cod_mun, municipio
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>encuestas <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"./datos/historical_surveys.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3753 Columns: 59
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): type_survey, id_pollster, pollster, media
+dbl  (51): size, turnout, UCD, PSOE, PCE, AP, CIU, PA, EAJ-PNV, HB, ERC, EE,...
+lgl   (1): exit_poll
+date  (3): date_elec, field_date_from, field_date_to
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>siglas <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"./datos/siglas.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 587 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): denominacion, siglas
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="depuracion-y-manejo-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="depuracion-y-manejo-de-datos">Depuracion y manejo de datos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="ot">&lt;-</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  datos_elecciones <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.logical), as.numeric)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(tipo_eleccion, vuelta, codigo_distrito_electoral)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>(<span class="st">"anno"</span><span class="sc">:</span> <span class="st">"votos_candidaturas"</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_to =</span> <span class="st">"partido"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_to =</span> <span class="st">"votos"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_drop_na =</span> <span class="cn">TRUE</span> ) <span class="sc">|&gt;</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(votos <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="ot">&lt;-</span> datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha =</span> <span class="fu">ymd</span>(<span class="fu">glue</span>(<span class="st">"{anno}{mes}01"</span>)),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">cod_mun =</span> <span class="fu">glue</span>(<span class="st">"{codigo_ccaa}-{codigo_provincia}-{codigo_municipio}"</span>))</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="ot">&lt;-</span>  datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(cod_mun, <span class="at">by =</span> <span class="st">"cod_mun"</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="do">##############################################################################</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="ot">&lt;-</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">siglas =</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>( partido, <span class="st">"SOCIALIST"</span>) <span class="sc">~</span> <span class="st">"PSOE"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido,<span class="st">"PARTIDO POPULAR"</span>)<span class="sc">~</span> <span class="st">"PP"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"CIUDADANOS |CIUTADANS"</span>) <span class="sc">~</span> <span class="st">"CS"</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"PODEM | UNIDAS PODEMOS | UNIDOS PODEMOS | EN COMÚ PODEM | EZKER | UNIDA |IU"</span>) <span class="sc">~</span> <span class="st">"UP"</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"VOX"</span>) <span class="sc">~</span> <span class="st">"VOX"</span>,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"PARTIDO NACIONALISTA VASCO"</span>) <span class="sc">~</span> <span class="st">"PNV"</span>,</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"BLOQUE NACIONALISTA GALEGO"</span>) <span class="sc">~</span> <span class="st">"BNG"</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"COMPROMÍS"</span>) <span class="sc">~</span> <span class="st">"Compromís"</span>,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"CONVERGÈNCIA I UNIÓ"</span>) <span class="sc">~</span> <span class="st">"CiU"</span>,</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"ESQUERRA REPUBLICANA DE CATALUNYA"</span>) <span class="sc">~</span> <span class="st">"ERC"</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"EUSKAL HERRIA BILDU"</span>) <span class="sc">~</span> <span class="st">"EH Bildu"</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(partido, <span class="st">"MP"</span>) <span class="sc">~</span> <span class="st">"MP"</span>,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                             <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"OTROS"</span> ))</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co"># sumanos los votos de los partidos pertenecientes al mismo grupo</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="ot">&lt;-</span> datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">votos =</span> <span class="fu">sum</span>(votos), <span class="at">.by =</span> <span class="fu">c</span>(fecha, cod_mun, siglas)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(fecha, cod_mun, siglas, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="do">#############################################################################</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>encuestas_tidy <span class="ot">&lt;-</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  encuestas <span class="sc">|&gt;</span> </span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>(<span class="st">"type_survey"</span><span class="sc">:</span><span class="st">"turnout"</span>),</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"partido"</span>,</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"votos"</span>,</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(field_date_to <span class="sc">-</span> field_date_from <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">year</span>(date_elec)<span class="sc">&gt;=</span> <span class="dv">2018</span> <span class="sc">&amp;</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>           exit_poll <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span>  size <span class="sc">&gt;=</span> <span class="dv">750</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(size) <span class="sc">|&gt;</span> </span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(type_survey, exit_poll))</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="do">#########################################################################</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>colores_partidos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PP"</span> <span class="ot">=</span> <span class="st">"#1e4c90"</span>, <span class="st">"VOX"</span> <span class="ot">=</span> <span class="st">"#5ac035"</span>, <span class="st">"PSOE"</span> <span class="ot">=</span> <span class="st">"#e40513"</span>, <span class="st">"UP"</span><span class="ot">=</span><span class="st">"#800080"</span> , </span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="st">"CS"</span><span class="ot">=</span><span class="st">"#f64901"</span>,<span class="st">"CUP"</span><span class="ot">=</span><span class="st">"orange"</span>, <span class="st">"PNV"</span><span class="ot">=</span><span class="st">"#2a8243"</span>, <span class="st">"ERC"</span><span class="ot">=</span> <span class="st">"#fbbc00"</span>, <span class="st">"BNG"</span><span class="ot">=</span><span class="st">"#76b3dd"</span>,<span class="st">"Compromís"</span><span class="ot">=</span><span class="st">"#d85127"</span>, </span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="st">"MP"</span><span class="ot">=</span><span class="st">"#00e2c6"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="funcion-n-votado" class="level3">
+<h3 class="anchored" data-anchor-id="funcion-n-votado">Funcion n-votado</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n_votado <span class="ot">&lt;-</span> <span class="cf">function</span>(partidos, votos, <span class="at">n =</span> <span class="dv">1</span>) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(partidos, votos) </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  siglas <span class="ot">&lt;-</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    datos <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(<span class="at">n =</span> n, votos, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_min</span>(<span class="at">n =</span> <span class="dv">1</span>, votos, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(partidos)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(siglas)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pregunta-1" class="level3">
+<h3 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h3>
+</section>
+<section id="cómo-se-reparte-el-voto-de-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu-frente-a-los-partidos-de-corte-autonómico-o-nacionalista" class="level3">
+<h3 class="anchored" data-anchor-id="cómo-se-reparte-el-voto-de-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu-frente-a-los-partidos-de-corte-autonómico-o-nacionalista">¿Cómo se reparte el voto de partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU) frente a los partidos de corte autonómico o nacionalista?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>votos_elecciones <span class="ot">&lt;-</span> datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Grupo =</span> <span class="fu">ifelse</span>(siglas <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PSOE"</span>, <span class="st">"PP"</span>, <span class="st">"VOX"</span>, <span class="st">"CS"</span>, <span class="st">"MP"</span>, <span class="st">"UP"</span>), <span class="st">"Nacionales "</span>, <span class="st">"Nacionalistas "</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># argupar</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>votos_elecciones <span class="ot">&lt;-</span> votos_elecciones <span class="sc">|&gt;</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha, Grupo) <span class="sc">|&gt;</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">votos =</span> <span class="fu">sum</span>(votos))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'fecha'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>votos_elecciones <span class="ot">&lt;-</span> votos_elecciones <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Grupo =</span> <span class="fu">fct_reorder</span>(Grupo, votos))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="do">##############################################################</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#VISUALIZACION</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(votos_elecciones, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> votos, <span class="at">color =</span> Grupo)) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Votos por tipo de partido"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Fecha"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Votos"</span>) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5e+07</span>), <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#INTERACCION</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(votos_elecciones, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> votos, <span class="at">color =</span> Grupo)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Votos por tipo de partido"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Fecha"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Votos"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Tipo de partido"</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"lightgray"</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert ggplot to Plotly</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(gg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-4ef9fc1aaa6d3b0c4afa" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-4ef9fc1aaa6d3b0c4afa">{"x":{"data":[{"x":[13939,15279,16770,16953,17987,18201],"y":[2999630,4488597,8295166,7232220,6495728,6810348],"text":["fecha: 2008-03-01<br />votos:  2999630<br />Grupo: Nacionalistas ","fecha: 2011-11-01<br />votos:  4488597<br />Grupo: Nacionalistas ","fecha: 2015-12-01<br />votos:  8295166<br />Grupo: Nacionalistas ","fecha: 2016-06-01<br />votos:  7232220<br />Grupo: Nacionalistas ","fecha: 2019-04-01<br />votos:  6495728<br />Grupo: Nacionalistas ","fecha: 2019-11-01<br />votos:  6810348<br />Grupo: Nacionalistas "],"type":"scatter","mode":"lines","line":{"width":4.5354330708661417,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Nacionalistas ","legendgroup":"Nacionalistas ","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[13939,15279,16770,16953,17987,18201],"y":[22069408,19429455,16600662,16522181,19382023,17051654],"text":["fecha: 2008-03-01<br />votos: 22069408<br />Grupo: Nacionales ","fecha: 2011-11-01<br />votos: 19429455<br />Grupo: Nacionales ","fecha: 2015-12-01<br />votos: 16600662<br />Grupo: Nacionales ","fecha: 2016-06-01<br />votos: 16522181<br />Grupo: Nacionales ","fecha: 2019-04-01<br />votos: 19382023<br />Grupo: Nacionales ","fecha: 2019-11-01<br />votos: 17051654<br />Grupo: Nacionales "],"type":"scatter","mode":"lines","line":{"width":4.5354330708661417,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"Nacionales ","legendgroup":"Nacionales ","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":42.22428554020037,"l":84.018264840182667},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Votos por tipo de partido","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[13725.9,18414.099999999999],"tickmode":"array","ticktext":["2010","2015","2020"],"tickvals":[14610,16436,18262],"categoryorder":"array","categoryarray":["2010","2015","2020"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(211,211,211,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Fecha","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2046141.1000000001,23022896.899999999],"tickmode":"array","ticktext":["5,000,000","10,000,000","15,000,000","20,000,000"],"tickvals":[5000000,10000000,14999999.999999998,20000000],"categoryorder":"array","categoryarray":["5,000,000","10,000,000","15,000,000","20,000,000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(211,211,211,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Votos","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Tipo de partido","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1a68684b2668":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"1a68684b2668","visdat":{"1a68684b2668":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="pregunta-2" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
+</section>
+<section id="cuál-es-el-partido-ganador-en-los-municipios-de-más-de-100-000-habitantes-de-censo-en-cada-una-de-las-elecciones." class="level2">
+<h2 class="anchored" data-anchor-id="cuál-es-el-partido-ganador-en-los-municipios-de-más-de-100-000-habitantes-de-censo-en-cada-una-de-las-elecciones.">¿Cuál es el partido ganador en los municipios de más de 100 000 habitantes de censo en cada una de las elecciones.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha, cod_mun) <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(censo <span class="sc">&gt;</span> <span class="dv">100000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(votos, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, municipio, votos, siglas, censo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Adding missing grouping variables: `cod_mun`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 282 × 6
+# Groups:   fecha, cod_mun [282]
+   cod_mun   fecha      municipio             votos siglas  censo
+   &lt;glue&gt;    &lt;date&gt;     &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+ 1 01-04-013 2008-03-01 Almería               49463 PP     134948
+ 2 01-11-012 2008-03-01 Cádiz                 32798 PSOE   106478
+ 3 01-11-020 2008-03-01 Jerez de la Frontera  55811 PSOE   158933
+ 4 01-14-021 2008-03-01 Córdoba               89057 PP     258020
+ 5 01-18-087 2008-03-01 Granada               73764 PP     191003
+ 6 01-21-041 2008-03-01 Huelva                37930 PSOE   114714
+ 7 01-29-067 2008-03-01 Málaga               135722 PSOE   423352
+ 8 01-41-091 2008-03-01 Sevilla              210050 PSOE   550377
+ 9 02-50-297 2008-03-01 Zaragoza             173636 PSOE   495871
+10 03-33-024 2008-03-01 Gijón                 82534 PSOE   232858
+# ℹ 272 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha, cod_mun) <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(censo <span class="sc">&gt;</span> <span class="dv">100000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(votos, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, municipio, votos, siglas, censo) <span class="sc">|&gt;</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span>siglas, <span class="at">y =</span> votos, <span class="at">fill =</span> siglas)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fecha, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colores_partidos) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Partido político ganador en municipios con más de 100.000 habitantes"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Municipio"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Votos"</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Adding missing grouping variables: `cod_mun`</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-3" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+</section>
+<section id="qué-partido-fue-el-segundo-cuando-el-primero-fue-el-psoe-y-cuándo-el-primero-fue-el-pp" class="level2">
+<h2 class="anchored" data-anchor-id="qué-partido-fue-el-segundo-cuando-el-primero-fue-el-psoe-y-cuándo-el-primero-fue-el-pp">¿Qué partido fue el segundo cuando el primero fue el PSOE? ¿Y cuándo el primero fue el PP?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># creamos una tabla nueva que nos guarda los ganadores y segundos de cada ellecion</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>datos_ganadores <span class="ot">&lt;-</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fecha <span class="sc">==</span> <span class="fu">max</span>(fecha)) <span class="sc">|&gt;</span> <span class="co"># solo las ultimas elecciones</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ganador =</span> <span class="fu">n_votado</span>(siglas, votos),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">segundo =</span> <span class="fu">n_votado</span>(siglas, votos, <span class="at">n =</span> <span class="dv">2</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">.by =</span> <span class="fu">c</span>(fecha, cod_mun)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(fecha, cod_mun, ganador, segundo, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculamos que partidos fueron segundos cuando gano el PSOE</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>datos_ganadores_psoe <span class="ot">&lt;-</span> datos_ganadores <span class="sc">|&gt;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ganador <span class="sc">==</span> <span class="st">"PSOE"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(segundo, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># lo mismo para el PP</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>datos_ganadores_pp <span class="ot">&lt;-</span> datos_ganadores <span class="sc">|&gt;</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ganador <span class="sc">==</span> <span class="st">"PP"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(segundo, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico para el PSOE</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a> datos_ganadores_psoe<span class="sc">|&gt;</span> </span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> segundo, <span class="at">y =</span> n, <span class="at">fill =</span> segundo)) <span class="sc">+</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Partido segundo cuando ganó el PSOE"</span>,</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Partido segundo"</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Número de veces"</span>) <span class="sc">+</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colores_partidos) <span class="sc">+</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a> <span class="co">#Grafico para el PP</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>datos_ganadores_pp <span class="sc">|&gt;</span> </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> segundo, <span class="at">y =</span> n, <span class="at">fill =</span> segundo)) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Partido segundo cuando ganó el PP"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Partido segundo"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Número de veces"</span>) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colores_partidos) <span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-4" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
+</section>
+<section id="en-qué-municipios-de-más-2000-habitantes-de-censo-provincias-o-autonomías-la-diferencia-entre-el-ganador-y-el-segundo-es-más-elevada" class="level2">
+<h2 class="anchored" data-anchor-id="en-qué-municipios-de-más-2000-habitantes-de-censo-provincias-o-autonomías-la-diferencia-entre-el-ganador-y-el-segundo-es-más-elevada">¿En qué municipios de más 2000 habitantes de censo, provincias o autonomías la diferencia entre el ganador y el segundo es más elevada?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>diferencia <span class="ot">&lt;-</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(censo <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fecha <span class="sc">==</span> <span class="fu">max</span>(fecha)) <span class="sc">|&gt;</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(municipio) <span class="sc">|&gt;</span> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">diferencia =</span> <span class="fu">max</span>(votos) <span class="sc">-</span> <span class="fu">max</span>(votos[votos <span class="sc">!=</span> <span class="fu">max</span>(votos)])) <span class="sc">|&gt;</span> </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(diferencia))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>diferencia <span class="sc">|&gt;</span> </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(datos_ganadores, <span class="at">by =</span> <span class="st">"municipio"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(municipio, diferencia, ganador)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,943 × 3
+   municipio      diferencia ganador
+   &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;  
+ 1 Barcelona          139724 OTROS  
+ 2 Sevilla             38475 PSOE   
+ 3 Pamplona/Iruña      33654 OTROS  
+ 4 Bilbao              27196 PNV    
+ 5 Zaragoza            24971 PSOE   
+ 6 Vigo                22897 PSOE   
+ 7 Málaga              21083 PSOE   
+ 8 Gijón               17374 PSOE   
+ 9 Madrid              16084 PP     
+10 Terrassa            14548 OTROS  
+# ℹ 1,933 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>diferencia <span class="ot">&lt;-</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(censo <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fecha <span class="sc">==</span> <span class="fu">max</span>(fecha)) <span class="sc">|&gt;</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(municipio) <span class="sc">|&gt;</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">diferencia =</span> <span class="fu">max</span>(votos) <span class="sc">-</span> <span class="fu">max</span>(votos[votos <span class="sc">!=</span> <span class="fu">max</span>(votos)])) <span class="sc">|&gt;</span> </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(diferencia))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>diferencia <span class="sc">|&gt;</span> </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(datos_ganadores, <span class="at">by =</span> <span class="st">"municipio"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(municipio, diferencia, ganador)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,943 × 3
+   municipio      diferencia ganador
+   &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;  
+ 1 Barcelona          139724 OTROS  
+ 2 Sevilla             38475 PSOE   
+ 3 Pamplona/Iruña      33654 OTROS  
+ 4 Bilbao              27196 PNV    
+ 5 Zaragoza            24971 PSOE   
+ 6 Vigo                22897 PSOE   
+ 7 Málaga              21083 PSOE   
+ 8 Gijón               17374 PSOE   
+ 9 Madrid              16084 PP     
+10 Terrassa            14548 OTROS  
+# ℹ 1,933 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Observamos que el cuando hay un claro ganador, este suele ser el PSOE (a excepción del Pais Vasco)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pregunta-5" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-5">Pregunta 5</h2>
+</section>
+<section id="cuáles-son-los-municipios-con-mayor-porcentaje-de-votos-nulos-de-españa" class="level2">
+<h2 class="anchored" data-anchor-id="cuáles-son-los-municipios-con-mayor-porcentaje-de-votos-nulos-de-españa">¿Cuáles son los municipios con mayor porcentaje de votos nulos de España?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">por_nul =</span> votos_nulos<span class="sc">/</span>votos_candidaturas <span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(municipio, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(por_nul)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(por_nul, municipio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,118 × 2
+   por_nul municipio             
+     &lt;dbl&gt; &lt;chr&gt;                 
+ 1   16.7  Requena de Campos     
+ 2   15.6  Narrillos del Rebollar
+ 3   12.5  Encinasola            
+ 4   12.5  Estepa de San Juan    
+ 5   11.5  Valdehijaderos        
+ 6   11.1  Valdevacas de Montejo 
+ 7    8.82 Piérnigas             
+ 8    8.60 Barrachina            
+ 9    8.57 Sarriés/Sartze        
+10    8.45 Peñalén               
+# ℹ 8,108 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Requena de Campos (16,66%) Palencia</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Narrillos del Rebollar (15,62%) Ávila</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Encinasola (12,53%) Huelva</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Estepa de San Juan (12,5%) Soria</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Valdehijaderos (11,53%) Salamanca</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Valdevacas de Montejo (11,11%) Segovia</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Piérnigas (8,82%) Burgos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pregunta-6" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-6">Pregunta 6</h2>
+</section>
+<section id="en-qué-sitios-hay-mayor-participación-quién-ganó-en-los-sitios-con-mayor-participación-y-donde-menos-a-quién-le-beneficia-la-baja-participación" class="level2">
+<h2 class="anchored" data-anchor-id="en-qué-sitios-hay-mayor-participación-quién-ganó-en-los-sitios-con-mayor-participación-y-donde-menos-a-quién-le-beneficia-la-baja-participación">¿En qué sitios hay mayor participación? ¿Quién ganó en los sitios con mayor participación y donde menos? ¿A quién le beneficia la baja participación?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>datos_participacion <span class="ot">&lt;-</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>datos_ganadores<span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">participacion =</span> (votos_blancos <span class="sc">+</span> votos_nulos <span class="sc">+</span> votos_candidaturas)<span class="sc">/</span>censo<span class="sc">*</span><span class="dv">100</span>) </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sitios con mayor participacion y sus ganadores</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>datos_participacion <span class="sc">|&gt;</span> </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(cod_mun, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#group_by(fecha) |&gt; # Ahora mismo no es necesario pq solo estan la ultima</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(participacion)) <span class="sc">|&gt;</span> </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, cod_mun, participacion, ganador)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,131 × 4
+   fecha      cod_mun   participacion ganador
+   &lt;date&gt;     &lt;glue&gt;            &lt;dbl&gt; &lt;chr&gt;  
+ 1 2019-11-01 08-09-184           100 UP     
+ 2 2019-11-01 07-16-275           100 PP     
+ 3 2019-11-01 07-19-010           100 PSOE   
+ 4 2019-11-01 07-19-031           100 PP     
+ 5 2019-11-01 07-19-049           100 PSOE   
+ 6 2019-11-01 07-19-097           100 PP     
+ 7 2019-11-01 07-19-284           100 PSOE   
+ 8 2019-11-01 07-19-310           100 PSOE   
+ 9 2019-11-01 16-26-030           100 PP     
+10 2019-11-01 16-26-048           100 PP     
+# ℹ 8,121 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sitios con menor participacion y sus ganadores</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>datos_participacion <span class="sc">|&gt;</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(cod_mun, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#group_by(fecha) |&gt; # Ahora mismo no es necesario pq solo estan la ultima</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>((participacion)) <span class="sc">|&gt;</span> </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, cod_mun, participacion, ganador)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,131 × 4
+   fecha      cod_mun   participacion ganador
+   &lt;date&gt;     &lt;glue&gt;            &lt;dbl&gt; &lt;chr&gt;  
+ 1 2019-11-01 08-24-171          40.4 PSOE   
+ 2 2019-11-01 08-37-047          41.4 PP     
+ 3 2019-11-01 13-31-137          41.9 OTROS  
+ 4 2019-11-01 08-37-334          42.3 PP     
+ 5 2019-11-01 13-31-244          43.9 OTROS  
+ 6 2019-11-01 13-31-102          44.4 OTROS  
+ 7 2019-11-01 02-50-275          45.0 PP     
+ 8 2019-11-01 14-01-016          45.3 PNV    
+ 9 2019-11-01 03-33-028          45.4 PSOE   
+10 2019-11-01 09-25-045          45.6 OTROS  
+# ℹ 8,121 more rows</code></pre>
+</div>
+</div>
+<p>Observamos que la baja participación beneficia a los partidos minoritarios y menos conocidos</p>
+</section>
+<section id="pregunta-7" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-7">Pregunta 7</h2>
+</section>
+<section id="cómo-analizar-la-relación-entre-censo-y-voto-es-cierto-que-ciertos-partidos-ganan-lo-rural" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-analizar-la-relación-entre-censo-y-voto-es-cierto-que-ciertos-partidos-ganan-lo-rural">¿Cómo analizar la relación entre censo y voto? ¿Es cierto que ciertos partidos ganan lo rural?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define los intervalos que vamos utilizar</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>intervalos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">100000</span>, <span class="dv">1000000</span>, <span class="dv">3000000</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crea la nueva variable censo_a</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>datos_censo <span class="ot">&lt;-</span> datos_ganadores <span class="sc">|&gt;</span> </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">censo_a =</span> <span class="fu">cut</span>(censo, <span class="at">breaks =</span> intervalos, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-1k"</span>, <span class="st">"1k-10k"</span>, <span class="st">"10k-100k"</span>,<span class="st">"100k-1M"</span>, <span class="st">"1M-3M"</span>), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> datos_censo <span class="sc">|&gt;</span> </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(censo_a) <span class="sc">|&gt;</span> </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(censo_a) </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> datos_censo <span class="sc">|&gt;</span> </span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(censo_a) <span class="sc">|&gt;</span> </span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ganador)</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> b <span class="sc">|&gt;</span> </span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(a, <span class="at">by =</span> <span class="st">"censo_a"</span>)  </span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(c) <span class="sc">+</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> ganador, <span class="at">y =</span> n.x<span class="sc">/</span>n.y <span class="sc">*</span> <span class="dv">100</span>, <span class="at">fill =</span> ganador)) <span class="sc">+</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>censo_a) <span class="sc">+</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colores_partidos) <span class="sc">+</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Porcentaje de votos por partido en función del censo"</span>,</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Partido"</span>,</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"% de votos"</span>,</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"Partido"</span>,) <span class="sc">+</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-8" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-8">Pregunta 8</h2>
+</section>
+<section id="cómo-calibrar-el-error-de-las-encuestas-cómo-visualizarlo-recuerda-que-las-encuestas-son-intención-de-voto-a-nivel-nacional" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-calibrar-el-error-de-las-encuestas-cómo-visualizarlo-recuerda-que-las-encuestas-son-intención-de-voto-a-nivel-nacional">¿Cómo calibrar el error de las encuestas? ¿Cómo visualizarlo? (recuerda que las encuestas son intención de voto a nivel nacional)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Modificamos la tabla encuestas para poder unirla a las elecciones</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>encuestas_tidy <span class="ot">&lt;-</span> encuestas_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">votos_e =</span> votos) <span class="sc">|&gt;</span> </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">siglas =</span> <span class="fu">case_when</span>(partido <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PSOE"</span>, <span class="st">"PP"</span>, <span class="st">"VOX"</span>, <span class="st">"CS"</span>, <span class="st">"MP"</span>, <span class="st">"UP"</span>,<span class="st">"BNG"</span>,<span class="st">"Compromís"</span>,<span class="st">"ERC"</span>,<span class="st">"CiU"</span>,<span class="st">"Eh Bildu"</span>,<span class="st">"PNV"</span>) <span class="sc">~</span> partido,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"OTROS"</span>)) <span class="sc">|&gt;</span>  <span class="co"># lo cambiamos para que tenga las mismas siglas que la tabla elecciones</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha =</span> date_elec) <span class="sc">|&gt;</span> </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">votos_e =</span> <span class="fu">mean</span>(votos_e), <span class="at">.by =</span> <span class="fu">c</span>(fecha, media,siglas)) <span class="sc">|&gt;</span> </span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(fecha, media, siglas, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span>  <span class="co"># sumamos los votos de cada una de las siglas</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, media, siglas,turnout, votos_e)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>participacion_tot <span class="ot">&lt;-</span> datos_elecciones_tidy <span class="sc">|&gt;</span>  <span class="co"># calculamos la participacion total de cada eleccion</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(fecha)<span class="sc">&gt;</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha) <span class="sc">|&gt;</span> </span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(municipio, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">participacion =</span> votos_blancos <span class="sc">+</span> votos_nulos <span class="sc">+</span> votos_candidaturas)  <span class="sc">|&gt;</span> </span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">participacion_tot =</span><span class="fu">sum</span>(participacion))</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="ot">&lt;-</span> datos_elecciones_tidy <span class="sc">|&gt;</span> </span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(fecha)<span class="sc">&gt;</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">votos_tot =</span> <span class="fu">sum</span>(votos), <span class="at">.by =</span> <span class="fu">c</span>(fecha, siglas)) <span class="sc">|&gt;</span>  <span class="co"># votos totales a nivel nacional </span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(fecha, siglas, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="ot">&lt;-</span> elecciones_encuestas <span class="sc">|&gt;</span> </span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(participacion_tot, <span class="at">by =</span> <span class="st">"fecha"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">per_votos =</span> votos_tot <span class="sc">/</span> participacion_tot <span class="sc">*</span><span class="dv">100</span>) <span class="co"># ponemos los votos en modo de porcentaje como en las encuestas</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="ot">&lt;-</span> elecciones_encuestas <span class="sc">|&gt;</span> </span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(encuestas_tidy, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"siglas"</span>))  <span class="sc">|&gt;</span> <span class="do">## juntamos las tablas y calculamos el error</span></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">month</span>(fecha.x) <span class="sc">==</span> <span class="fu">month</span>(fecha.y)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in inner_join(elecciones_encuestas, encuestas_tidy, by = c("siglas")): Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 4 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  "many-to-many"` to silence this warning.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">abs</span>(per_votos <span class="sc">-</span> votos_e)) <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media_error =</span> <span class="fu">mean</span>(diferencia), <span class="at">.by =</span> <span class="fu">c</span>(fecha.x, siglas)) <span class="sc">|&gt;</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> siglas, <span class="at">y =</span> media_error, <span class="at">fill =</span> media_error)) <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fecha.x, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Error de las encuestas de intención de voto en España"</span>,</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Partido"</span>,</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Diferencia desde la media global (porcentaje)"</span>,</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Error absoluto"</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-9" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-9">Pregunta 9</h2>
+<p>¿En qué elección se equivocaron más las encuestas?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">abs</span>(per_votos <span class="sc">-</span> votos_e)) <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media_error =</span> <span class="fu">mean</span>(diferencia), <span class="at">.by =</span> <span class="fu">c</span>(fecha.x, siglas)) <span class="sc">|&gt;</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> siglas, <span class="at">y =</span> media_error, <span class="at">fill =</span> media_error)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fecha.x, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Error de las encuestas de intención de voto en España"</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Partido"</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Diferencia desde la media global (porcentaje)"</span>,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Error absoluto"</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-10" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-10">Pregunta 10</h2>
+</section>
+<section id="cómo-se-equivocaron-las-encuestas-en-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-se-equivocaron-las-encuestas-en-partidos-de-ámbito-nacional-psoe-pp-vox-cs-mp-up---iu">¿Cómo se equivocaron las encuestas en partidos de ámbito nacional (PSOE, PP, VOX, CS, MP, UP - IU)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>grafico <span class="ot">&lt;-</span> elecciones_encuestas <span class="sc">|&gt;</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(siglas <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PSOE"</span>, <span class="st">"PP"</span>, <span class="st">"VOX"</span>, <span class="st">"CS"</span>, <span class="st">"MP"</span>, <span class="st">"UP"</span>))  <span class="sc">|&gt;</span> </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferencia =</span> votos_e <span class="sc">-</span> per_votos)  <span class="sc">|&gt;</span> </span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">error_medio =</span> <span class="fu">mean</span>(diferencia), <span class="at">.by =</span> <span class="fu">c</span>(fecha.y, siglas)) </span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>global_mean_error <span class="ot">&lt;-</span> grafico <span class="sc">|&gt;</span> </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">global_mean =</span> <span class="fu">mean</span>(error_medio))</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">|&gt;</span> </span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> siglas, <span class="at">y =</span> error_medio, <span class="at">fill =</span> error_medio)) <span class="sc">+</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> global_mean_error<span class="sc">$</span>global_mean, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fecha.y) <span class="sc">+</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span>  </span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Error medio de las encuestas de intención de voto en España"</span>,</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Partido"</span>,</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Error medio (porcentaje)"</span>,</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Error medio"</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="entrega-grupal_final_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pregunta-11" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-11">Pregunta 11</h2>
+</section>
+<section id="qué-casas-encuestadores-acertaron-más-y-cuales-se-desviaron-más-de-los-resultados" class="level2">
+<h2 class="anchored" data-anchor-id="qué-casas-encuestadores-acertaron-más-y-cuales-se-desviaron-más-de-los-resultados">¿Qué casas encuestadores acertaron más y cuales se desviaron más de los resultados?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MAS ACIERTO</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">media_error =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(per_votos <span class="sc">-</span> votos_e)), <span class="at">.by =</span> <span class="fu">c</span>(fecha.y, media)) <span class="sc">|&gt;</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(media_error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 39 × 3
+   fecha.y    media               media_error
+   &lt;date&gt;     &lt;chr&gt;                     &lt;dbl&gt;
+ 1 2019-11-10 PRENSA IBÉRICA             3.89
+ 2 2019-04-28 EL INDEPENDIENTE           4.81
+ 3 2019-11-10 INFOLIBRE                  4.98
+ 4 2019-11-10 RTVE–FORTA                 5.16
+ 5 2019-11-10 EL PERIÓDIC ANDORRA        5.23
+ 6 2019-04-28 RTVE–FORTA                 5.28
+ 7 2019-11-10 EL PERIÓDICO               5.48
+ 8 2019-04-28 COPE                       5.49
+ 9 2019-04-28 LA VOZ DE GALICIA          5.63
+10 2019-11-10 EL MUNDO                   5.65
+# ℹ 29 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MENOS ACIERTO</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>elecciones_encuestas <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">media_error =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(per_votos <span class="sc">-</span> votos_e)), <span class="at">.by =</span> <span class="fu">c</span>(fecha.y, media)) <span class="sc">|&gt;</span> </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(media) <span class="sc">|&gt;</span> </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(media_error)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 37 × 3
+   fecha.y    media         media_error
+   &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt;
+ 1 2019-11-10 LA SEXTA             8.14
+ 2 2019-11-10 EL PAÍS              7.34
+ 3 2019-04-28 EL PERIÓDICO         7.21
+ 4 2019-04-28 ELDIARIO.ES          6.99
+ 5 2019-11-10 LA VANGUARDIA        6.99
+ 6 2019-11-10 ESDIARIO             6.86
+ 7 2019-04-28 LA RAZÓN             6.84
+ 8 2019-11-10 LA RAZÓN             6.78
+ 9 2019-11-10 ELECTOMANÍA          6.61
+10 2019-11-10 ELDIARIO.ES          6.58
+# ℹ 27 more rows</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
